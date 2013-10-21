@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = function (grunt) {
+    var packageInfo = require('./package.json');
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     // configurable paths
@@ -11,6 +12,7 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         yeoman: yeomanConfig,
+        packageInfo: packageInfo,
 
         // watch list
         watch: {
@@ -302,6 +304,20 @@ module.exports = function (grunt) {
                     '.tmp/scripts/templates.js': ['<%= yeoman.app %>/template/**/*.hbs', '<%= yeoman.app %>/scripts/**/template/*.hbs']
                 }
             }
+        },
+
+        compress: {
+            main: {
+                options: {
+                    archive: 'out/<%= packageInfo.name %>-<%= packageInfo.version %>.tar.gz',
+                    mode: 'tgz'
+                },
+                src: [
+                    'dist/**/*',
+                    'server/**/*',
+                    'package.json'
+                ]
+            }
         }
     });
 
@@ -361,5 +377,10 @@ module.exports = function (grunt) {
         'build',
         'express:prod',
         'watch:nothing'
+    ]);
+
+    grunt.registerTask('dist', [
+        'build',
+        'compress'
     ]);
 };
