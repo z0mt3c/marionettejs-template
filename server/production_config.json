@@ -1,0 +1,17 @@
+{
+    "server": {
+        "port": 9000
+    },
+    "options": {
+        "livereload": false,
+        "templates": false
+    },
+    "path": {
+        "public": "../dist",
+        "static": ["images", "api", "scripts", "styles", "bower_components"]
+    },
+    "clientAppSettings": {
+        "status": "production",
+        "test": 1234
+    }
+}
