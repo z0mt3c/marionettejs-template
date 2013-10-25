@@ -5,7 +5,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var hbs = require('express-hbs');
-var _ = require('underscore');
+var _ = require('lodash');
 var app = express();
 
 app.configure(function () {
