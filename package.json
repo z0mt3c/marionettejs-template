@@ -4,6 +4,7 @@
   "author": "Timo Behrmann",
   "description": "Yet another marionette.js amd template",
   "license": "MIT",
+  "main": "server/app.js",
   "dependencies": {
     "express": "~3.4.1",
     "express-hbs": "~0.3.0",
