@@ -31,8 +31,8 @@ require.config({
 
     paths: {
         jquery: '../bower_components/jquery/jquery',
-        backbone: '../bower_components/backbone-amd/backbone',
-        underscore: '../bower_components/underscore-amd/underscore',
+        backbone: '../bower_components/backbone/backbone',
+        underscore: '../bower_components/lodash/dist/lodash.underscore',
         clientconfig: '../bower_components/clientconfig/clientconfig.bundle',
 
         /* alias all marionette libs */

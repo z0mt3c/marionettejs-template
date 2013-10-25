@@ -3,11 +3,10 @@
   "version": "0.0.0",
   "dependencies": {
     "sass-bootstrap-compass": "~3.0.x",
-    "jquery": "~1.9.0",
+    "jquery": "~2.0.3",
     "requirejs": "~2.1.5",
     "requirejs-text": "~2.0.5",
-    "backbone-amd": "~1.1.0",
-    "underscore-amd": "~1.4.4",
+    "backbone": "~1.1.0",
     "modernizr": "~2.6.2",
     "backbone.marionette": "~1.2.0",
     "backbone.wreqr": "~0.2.0",
@@ -15,9 +14,9 @@
     "require-handlebars-plugin": "~0.4.0",
     "mocha": "~1.12.0",
     "font-awesome": "~3.2.1",
-    "underscore": "~1.5.2",
     "almond": "~0.2.6",
-    "clientconfig": "*"
+    "clientconfig": "*",
+    "lodash": "~2.2.1"
   },
   "devDependencies": {},
   "directory": "bower_components"
