@@ -1,7 +1,6 @@
 {
     "node": true,
     "browser": true,
-    "es5": true,
     "esnext": true,
     "bitwise": true,
     "camelcase": true,
@@ -16,7 +15,14 @@
     "regexp": true,
     "undef": true,
     "unused": true,
-    "strict": true,
+    "strict": false,
     "trailing": true,
-    "smarttabs": true
+    "smarttabs": true,
+    "globals": {
+        "$": false,
+        "define": false,
+        "alert": false,
+        "describe": false,
+        "it": false
+    }
 }

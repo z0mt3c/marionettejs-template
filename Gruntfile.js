@@ -96,19 +96,19 @@ module.exports = function (grunt) {
             },
             dev: {
                 options: {
-                    node_env: 'development',
+                    'node_env': 'development',
                     script: 'server/app.js'
                 }
             },
             prod: {
                 options: {
-                    node_env: 'production',
+                    'node_env': 'production',
                     script: 'server/app.js'
                 }
             },
             test: {
                 options: {
-                    node_env: 'test',
+                    'node_env': 'test',
                     script: 'server/app.js'
                 }
             }
@@ -130,13 +130,20 @@ module.exports = function (grunt) {
         // linting
         jshint: {
             options: {
-                jshintrc: '.jshintrc'
+                jshintrc: '.jshintrc',
+                ignores: [
+                    '<%= yeoman.app %>/scripts/vendor/*',
+                ]
             },
-            all: [
+            app: [
                 'Gruntfile.js',
                 '<%= yeoman.app %>/scripts/{,*/}*.js',
-                '!<%= yeoman.app %>/scripts/vendor/*',
-                'test/spec/{,*/}*.js'
+                'app-test/{,*/}*.js'
+            ],
+            server: [
+                'Gruntfile.js',
+                '<%= yeoman.app %>/server/{,*/}*.js',
+                'server-test/{,*/}*.js'
             ]
         },
 
@@ -163,10 +170,10 @@ module.exports = function (grunt) {
             compile: {
                 options: {
                     almond: true,
-                    baseUrl: "<%= yeoman.app %>/scripts",
-                    mainConfigFile: "<%= yeoman.app %>/scripts/init.js",
-                    out: "<%= yeoman.dist %>/scripts/main.js",
-                    optimize: "uglify2",
+                    baseUrl: '<%= yeoman.app %>/scripts',
+                    mainConfigFile: '<%= yeoman.app %>/scripts/init.js',
+                    out: '<%= yeoman.dist %>/scripts/main.js',
+                    optimize: 'uglify2',
                     generateSourceMaps: true,
                     preserveLicenseComments: false,
                     findNestedDependencies: true,
@@ -247,7 +254,7 @@ module.exports = function (grunt) {
             dist: {
                 options: {
                     /*removeCommentsFromCDATA: true,
-                     // https://github.com/yeoman/grunt-usemin/issues/44
+                     //https://github.com/yeoman/grunt-usemin/issues/44
                      //collapseWhitespace: true,
                      collapseBooleanAttributes: true,
                      removeAttributeQuotes: true,
@@ -397,7 +404,7 @@ module.exports = function (grunt) {
         'watch:nothing'
     ]);
 
-    grunt.registerTask('testApp', [
+    grunt.registerTask('test:server', [
         'mochaTest'
     ]);
 
