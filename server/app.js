@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require('getconfig');
+var config = require('../config');
 var express = require('express');
 var http = require('http');
 var path = require('path');

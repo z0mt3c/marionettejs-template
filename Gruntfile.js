@@ -318,6 +318,24 @@ module.exports = function (grunt) {
                     'package.json'
                 ]
             }
+        },
+
+        mochaTest: {
+            app: {
+                options: {
+                    reporter: 'spec',
+                    require: 'server-test/blanketHelper'
+                },
+                src: ['server-test/**/*.js']
+            },
+            appCoverage: {
+                options: {
+                    reporter: 'html-cov',
+                    quiet: true,
+                    captureFile: './out/coverage.html'
+                },
+                src: ['server-test/**/*.js']
+            }
         }
     });
 
@@ -377,6 +395,10 @@ module.exports = function (grunt) {
         'build',
         'express:prod',
         'watch:nothing'
+    ]);
+
+    grunt.registerTask('testApp', [
+        'mochaTest'
     ]);
 
     grunt.registerTask('dist', [
