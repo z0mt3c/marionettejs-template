@@ -9,7 +9,8 @@ var _ = require('lodash');
 var app = express();
 
 app.configure(function () {
-    app.use(express.bodyParser());
+    //app.use(express.json());
+    //app.use(express.urlencoded());
     app.use(express.compress());
     app.set('port', process.env.PORT || config.server.port || 9000);
     app.set('view engine', 'handlebars');
