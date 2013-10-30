@@ -2,13 +2,16 @@ define([
     'backbone',
     'communicator',
     'clientconfig',
+    'loglevel',
     'helper/dialogRegion',
     'hbs!template/main'
 ],
-    function (Backbone, Communicator, config, dialogRegion, mainTmpl) {
+    function (Backbone, Communicator, config, log, dialogRegion, mainTmpl) {
         'use strict';
-        console.log('Config loaded:');
-        console.log(config);
+
+        // set log level - fallback: SILENT (5)
+        log.setLevel(config.loglevel || 5); //
+        log.debug('Configuration loaded:', config);
 
         var App = new Backbone.Marionette.Application();
 

@@ -1,13 +1,13 @@
-define(['application'], function (App) {
+define(['application', 'loglevel'], function (App, log) {
     App.module('DemoApp', function (DemoApp) {
         DemoApp.startWithParent = false;
 
         DemoApp.onStart = function () {
-            console.log('starting DemoApp');
+            log.debug('starting DemoApp');
         };
 
         DemoApp.onStop = function () {
-            console.log('stopping DemoApp');
+            log.debug('stopping DemoApp');
         };
     });
 

@@ -11,6 +11,7 @@
         "static": ["images", "api", "scripts", "styles", "bower_components"]
     },
     "clientAppSettings": {
+        "loglevel": "DEBUG",
         "status": "development",
         "test": 1234
     }
