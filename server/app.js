@@ -1,5 +1,9 @@
 'use strict';
 
+var logger = require('winston');
+logger.remove(logger.transports.Console);
+logger.add(logger.transports.Console, { timestamp: true })
+
 var config = require('../config');
 var express = require('express');
 var http = require('http');
@@ -43,5 +47,5 @@ app.configure(function () {
 });
 
 http.createServer(app).listen(app.get('port'), function () {
-    console.log('Server listening on port ' + app.get('port'));
+    logger.log('info', 'Server listening on port %s', app.get('port'));
 });
