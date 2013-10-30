@@ -68,7 +68,7 @@ define([
 
         App.on('initialize:after', function () {
             if (Backbone.history) {
-                require(['default/DefaultApp'], function () {
+                require(['default/DefaultApp', 'demo/DemoApp'], function () {
                     initializeRouter();
 
                     if (App.getCurrentRoute() === '') {
