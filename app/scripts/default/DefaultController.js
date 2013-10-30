@@ -2,9 +2,9 @@ define(['application', 'default/DefaultView'], function (App, View) {
     return {
         showStart: function () {
             var view = new View.Start({});
-            view.on('showModal', function () {
-                console.log('showModal');
-                alert('showModal');
+            view.on('dialog:show', function () {
+                var dialog = new View.Dialog({});
+                App.dialogRegion.show(dialog);
             });
             App.mainRegion.show(view);
         },

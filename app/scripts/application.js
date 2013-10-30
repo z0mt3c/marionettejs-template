@@ -2,9 +2,10 @@ define([
     'backbone',
     'communicator',
     'clientconfig',
+    'helper/dialogRegion',
     'hbs!template/main'
 ],
-    function (Backbone, Communicator, config, mainTmpl) {
+    function (Backbone, Communicator, config, dialogRegion, mainTmpl) {
         'use strict';
         console.log('Config loaded:');
         console.log(config);
@@ -14,8 +15,8 @@ define([
         /* Add application regions here */
         App.addRegions({
             navigationRegion: '#navigation-region',
-            mainRegion: '#main-region'
-            // dialogRegion: '#dialog-region'
+            mainRegion: '#main-region',
+            dialogRegion: dialogRegion
         });
 
         App.navigate = function (route, options) {
