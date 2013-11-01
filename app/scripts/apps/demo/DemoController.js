@@ -1,4 +1,4 @@
-define(['application', 'demo/DemoView'], function (App, View) {
+define(['application', 'apps/demo/DemoView'], function (App, View) {
     return {
         showDemo: function () {
             var view = new View.Demo({});

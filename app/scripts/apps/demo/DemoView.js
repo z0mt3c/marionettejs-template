@@ -1,7 +1,7 @@
 define([
     'application',
     'backbone',
-    'hbs!demo/template/demo'
+    'hbs!apps/demo/template/demo'
 ], function (App, Backbone, demoTpl) {
     var views = { };
 

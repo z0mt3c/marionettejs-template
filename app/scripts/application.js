@@ -17,6 +17,7 @@ define([
 
         /* Add application regions here */
         App.addRegions({
+            headerRegion: "#header-region",
             navigationRegion: '#navigation-region',
             mainRegion: '#main-region',
             dialogRegion: dialogRegion
@@ -71,7 +72,7 @@ define([
 
         App.on('initialize:after', function () {
             if (Backbone.history) {
-                require(['default/DefaultApp', 'demo/DemoApp'], function () {
+                require(['apps/default/DefaultApp', 'apps/demo/DemoApp'], function () {
                     initializeRouter();
 
                     if (App.getCurrentRoute() === '') {

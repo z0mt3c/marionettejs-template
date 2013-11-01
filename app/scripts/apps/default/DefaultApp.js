@@ -15,7 +15,6 @@ define(['application', 'loglevel'], function (App, log) {
         var executeAction = function (action, arg) {
             App.startSubApp('DefaultApp');
             action(arg);
-            //App.execute('set:active:header', 'contacts');
         };
 
         DefaultAppRouter.Router = Backbone.Marionette.AppRouter.extend({
@@ -27,13 +26,15 @@ define(['application', 'loglevel'], function (App, log) {
 
         var API = {
             showStart: function (criterion) {
-                require(['default/DefaultController'], function (DefaultController) {
+                require(['apps/default/DefaultController'], function (DefaultController) {
+                    App.execute('set:active:header', '/start');
                     executeAction(DefaultController.showStart, criterion);
                 });
             },
 
             showHello: function (name) {
-                require(['default/DefaultController'], function (DefaultController) {
+                require(['apps/default/DefaultController'], function (DefaultController) {
+                    App.execute('set:active:header', '/hello/Name');
                     executeAction(DefaultController.showHello, name);
                 });
             }

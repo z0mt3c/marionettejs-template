@@ -1,4 +1,4 @@
-define(['application', 'default/DefaultView'], function (App, View) {
+define(['application', 'apps/default/DefaultView'], function (App, View) {
     return {
         showStart: function () {
             var view = new View.Start({});

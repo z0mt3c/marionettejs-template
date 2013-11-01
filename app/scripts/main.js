@@ -1,8 +1,9 @@
 require([
 	'backbone',
-	'application'
+	'application',
+    'apps/header/HeaderApp'
 ],
-function ( Backbone, App) {
+function (Backbone, App) {
     'use strict';
 
 	App.start();

@@ -26,8 +26,9 @@ define(['application', 'loglevel'], function (App, log) {
 
         var API = {
             showDemo: function (criterion) {
-                require(['demo/DemoController'], function (DemoController) {
+                require(['apps/demo/DemoController'], function (DemoController) {
                     executeAction(DemoController.showDemo, criterion);
+                    App.execute('set:active:header', '/demo');
                 });
             }
         };
