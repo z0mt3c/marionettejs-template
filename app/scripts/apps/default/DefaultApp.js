@@ -45,7 +45,7 @@ define(['application', 'loglevel'], function (App, log) {
             API.showStart();
         });
 
-        App.on('test:hello', function (name) {
+        App.on('default:hello', function (name) {
             App.navigate('hello/' + name);
             API.showHello(name);
         });

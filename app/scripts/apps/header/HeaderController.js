@@ -1,4 +1,4 @@
-define(['application', 'apps/header/HeaderView'], function (App, View) {
+define(['application', 'apps/header/HeaderView', 'underscore'], function (App, View, _) {
     return {
         listHeader: function () {
             require(['entities/header'], function () {
@@ -11,7 +11,12 @@ define(['application', 'apps/header/HeaderView'], function (App, View) {
 
                 headers.on('itemview:navigate', function (childView, model) {
                     var trigger = model.get('navigationTrigger');
-                    App.trigger(trigger);
+
+                    if (!_.isArray(trigger)) {
+                        trigger = [trigger];
+                    }
+
+                    App.trigger.apply(App, trigger);
                 });
 
                 App.headerRegion.show(headers);
