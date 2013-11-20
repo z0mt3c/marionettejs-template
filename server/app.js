@@ -39,6 +39,25 @@ app.configure(function () {
         res.json({'hello': req.params.name});
     });
 
+    /*
+     * Master detail example
+     */
+    var masterDetailData = [
+        {id: 1, title: 'Apple', devices: ['iPhone 5c', 'iPhone 5s']},
+        {id: 2, title: 'Samsung', devices: ['Galaxy S3', 'Galaxy S4']},
+        {id: 3, title: 'HTC', devices: ['One', 'One Mini', 'One Max']}
+    ];
+
+    app.get('/api/masterdetail', function (req, res) {
+        res.json(_.map(masterDetailData, function(e) {
+            return {id: e.id, title: e.title, count: e.devices.length};
+        }));
+    });
+
+    app.get('/api/masterdetail/:id', function (req, res) {
+        res.json(masterDetailData[req.params.id-1]);
+    });
+
     // route index.html
     var catchAllNonStatic = new RegExp('^(?!\/(' + config.path.static.join('|') + '))[^.]*$');
     app.get(catchAllNonStatic, configMiddleware, function (req, res) {
