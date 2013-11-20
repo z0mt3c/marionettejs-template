@@ -20,14 +20,22 @@ define(['application', 'loglevel'], function (App, log) {
         MasterDetailAppRouter.Router = Backbone.Marionette.AppRouter.extend({
             appRoutes: {
                 'masterdetail': 'showStart',
-                'masterdetail/:id': 'showStart'
+                'masterdetail/:id': 'showDetail'
             }
         });
 
         var API = {
-            showStart: function (criterion) {
+            showStart: function () {
                 require(['apps/masterdetail/MasterDetailController'], function (Controller) {
-                    executeAction(Controller.showStart, criterion);
+                    executeAction(Controller.showStart);
+                    Controller.showSide();
+                    App.execute('set:active:header', '/masterdetail');
+                });
+            },
+            showDetail: function (id) {
+                require(['apps/masterdetail/MasterDetailController'], function (Controller) {
+                    executeAction(Controller.showDetail, id);
+                    Controller.showSide(id);
                     App.execute('set:active:header', '/masterdetail');
                 });
             }
@@ -40,7 +48,7 @@ define(['application', 'loglevel'], function (App, log) {
 
         App.on('masterdetail:detail', function (id) {
             App.navigate('/masterdetail/' + id);
-            API.showStart(id);
+            API.showDetail(id);
         });
 
         App.addInitializer(function () {
