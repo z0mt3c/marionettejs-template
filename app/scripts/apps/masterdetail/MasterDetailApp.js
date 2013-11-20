@@ -4,6 +4,13 @@ define(['application', 'loglevel'], function (App, log) {
 
         MasterDetailApp.onStart = function () {
             log.debug('starting MasterDetailApp');
+
+            /*
+            // possible but doesnt pass id
+            require(['apps/masterdetail/MasterDetailController'], function (Controller) {
+                Controller.showSide();
+            });
+            */
         };
 
         MasterDetailApp.onStop = function () {
