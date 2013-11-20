@@ -17,7 +17,7 @@ define([
 
         /* Add application regions here */
         App.addRegions({
-            headerRegion: "#header-region",
+            headerRegion: '#header-region',
             navigationRegion: '#navigation-region',
             mainRegion: '#main-region',
             dialogRegion: dialogRegion
@@ -53,7 +53,7 @@ define([
 
         /* Add initializers here */
         App.addInitializer(function () {
-            Communicator.mediator.trigger("app:start");
+            Communicator.mediator.trigger('app:start');
             document.body.innerHTML = mainTmpl({});
         });
 

@@ -1,5 +1,5 @@
-define(["application", "backbone.picky"], function (App) {
-    App.module("Entities", function (Entities, App, Backbone) {
+define(['application', 'backbone.picky'], function (App) {
+    App.module('Entities', function (Entities, App, Backbone) {
         Entities.MasterDetail = Backbone.Model.extend({
             urlRoot: '/api/masterdetail',
             initialize: function () {
@@ -45,11 +45,11 @@ define(["application", "backbone.picky"], function (App) {
             }
         };
 
-        App.reqres.setHandler("masterdetail:entities", function () {
+        App.reqres.setHandler('masterdetail:entities', function () {
             return API.getEntities();
         });
 
-        App.reqres.setHandler("masterdetail:entity", function (id) {
+        App.reqres.setHandler('masterdetail:entity', function (id) {
             return API.getEntity(id);
         });
     });
