@@ -1,9 +1,9 @@
 define([
     'application',
     'backbone',
-    'hbs!apps/default/template/start',
-    'hbs!apps/default/template/dialog',
-    'hbs!apps/default/template/hello'
+    'hbs!apps/default/templates/start',
+    'hbs!apps/default/templates/dialog',
+    'hbs!apps/default/templates/hello'
 ], function (App, Backbone, startTpl, dialogTpl, helloTpl) {
     var views = { };
 
