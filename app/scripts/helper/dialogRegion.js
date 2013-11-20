@@ -6,9 +6,9 @@ define(['backbone'], function (Backbone) {
             var self = this,
                 modal = this.$el.modal('show');
 
-            this.listenTo(view, "dialog:close", this.closeDialog);
+            this.listenTo(view, 'dialog:close', this.closeDialog);
 
-            modal.one("hidden.bs.modal", function() {
+            modal.one('hidden.bs.modal', function() {
                 self.stopListening();
                 self.close();
             });

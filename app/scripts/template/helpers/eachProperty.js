@@ -6,7 +6,8 @@ define('template/helpers/eachProperty', ['handlebars'], function (Handlebars) {
             ret = ret + options.fn({property: prop, value: context[prop], first: i === 0, index: i++});
         }
         return ret;
-    };
+    }
+
     Handlebars.registerHelper('eachProperty', eachProperty);
     return eachProperty;
 });

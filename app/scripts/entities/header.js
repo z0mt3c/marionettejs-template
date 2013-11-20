@@ -1,5 +1,5 @@
-define(["application", "backbone.picky"], function (App) {
-    App.module("Entities", function (Entities, App, Backbone) {
+define(['application', 'backbone.picky'], function (App) {
+    App.module('Entities', function (Entities, App, Backbone) {
         Entities.Header = Backbone.Model.extend({
             initialize: function () {
                 var selectable = new Backbone.Picky.Selectable(this);
@@ -18,9 +18,9 @@ define(["application", "backbone.picky"], function (App) {
 
         var initializeHeaders = function () {
             Entities.headers = new Entities.HeaderCollection([
-                { name: "Start", url: "/start", navigationTrigger: "default:start" },
-                { name: "Hello", url: "/hello/Name", navigationTrigger: ["default:hello", "Name"] },
-                { name: "Demo", url: "/demo", navigationTrigger: "demo:demo" }
+                { name: 'Start', url: '/start', navigationTrigger: 'default:start' },
+                { name: 'Hello', url: '/hello/Name', navigationTrigger: ['default:hello', 'Name'] },
+                { name: 'Demo', url: '/demo', navigationTrigger: 'demo:demo' }
             ]);
         };
 
@@ -33,7 +33,7 @@ define(["application", "backbone.picky"], function (App) {
             }
         };
 
-        App.reqres.setHandler("header:entities", function () {
+        App.reqres.setHandler('header:entities', function () {
             return API.getHeaders();
         });
     });

@@ -140,7 +140,7 @@ module.exports = function (grunt) {
             },
             app: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/scripts/{,*/}*.js',
+                '<%= yeoman.app %>/scripts/{,*/}{,*/}{,*/}*.js',
                 'app-test/{,*/}*.js'
             ],
             server: [
