@@ -39,7 +39,7 @@ define(['application', 'loglevel'], function (App, log) {
         });
 
         App.on('masterdetail:detail', function (id) {
-            App.navigate('/masterdetail/'+id);
+            App.navigate('/masterdetail/' + id);
             API.showStart(id);
         });
 

@@ -1,15 +1,9 @@
 define(['application', 'apps/masterdetail/MasterDetailView'], function (App, View) {
-
-    function loadLayout() {
-        var layout = new View.Layout();
-        App.mainRegion.show(layout);
-    };
-
     return {
         showStart: function (id) {
             var layout = new View.Layout();
 
-            layout.on("show", function () {
+            layout.on('show', function () {
                 layout.mainRegion.show(new View.Empty({}));
             });
 
@@ -33,7 +27,10 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
                     });
 
                     entities.on('select:one', function (model) {
-                        loadDetail(model.get('id'));
+                        var id = model.get('id');
+                        // TODO: ugly - should trigger event
+                        App.navigate('/masterdetail/' + id);
+                        loadDetail(id);
                     });
 
                     if (id) {
@@ -45,10 +42,6 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
             });
 
             App.mainRegion.show(layout);
-        },
-
-        showDetail: function (id) {
-
         }
     };
 });
