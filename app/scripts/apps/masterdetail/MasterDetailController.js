@@ -1,12 +1,21 @@
 define(['application', 'apps/masterdetail/MasterDetailView'], function (App, View) {
     function getLayout() {
-        var layout = App.mainRegion.currentView instanceof View.Layout ? App.mainRegion.currentView : new View.Layout();
-        return layout;
+        if (App.mainRegion.currentView && App.mainRegion.currentView instanceof View.Layout) {
+            return App.mainRegion.currentView;
+        } else {
+            var layout = new View.Layout();
+            App.mainRegion.show(layout);
+            return layout;
+        }
     }
 
     return {
         showSide: function (id) {
             var layout = getLayout();
+
+            if (layout.sideRegion.currentView) {
+                return;
+            }
 
             require(['entities/masterdetail'], function () {
                 var fetchEntities = App.request('masterdetail:entities');
@@ -24,7 +33,6 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
                         App.trigger('masterdetail:detail', model.get('id'));
                     });
 
-
                     layout.sideRegion.show(view);
                 });
             });
@@ -33,29 +41,21 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
         showDetail: function (id) {
             var layout = getLayout();
 
-            layout.on('show', function () {
-                require(['entities/masterdetail'], function () {
-                    var fetchEntity = App.request('masterdetail:entity', id);
-                    $.when(fetchEntity).done(function (entity) {
-                        var detailView = new View.Detail({
-                            model: entity
-                        });
-
-                        layout.mainRegion.show(detailView);
+            require(['entities/masterdetail'], function () {
+                var fetchEntity = App.request('masterdetail:entity', id);
+                $.when(fetchEntity).done(function (entity) {
+                    var detailView = new View.Detail({
+                        model: entity
                     });
+
+                    layout.mainRegion.show(detailView);
                 });
             });
-
-            App.mainRegion.show(layout);
         },
 
         showStart: function () {
             var layout = getLayout();
-
-            layout.on('show', function () {
-                layout.mainRegion.show(new View.Empty({}));
-            });
-            App.mainRegion.show(layout);
+            layout.mainRegion.show(new View.Empty({}));
         }
     };
 });
