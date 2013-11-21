@@ -27,7 +27,7 @@ module.exports = function (grunt) {
                     '{.tmp,<%= yeoman.app %>}/scripts/{,**/}*.js',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,**/}*.hbs',
                     '{.tmp,<%= yeoman.app %>}/templates/{,**/}*.hbs',
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                    '<%= yeoman.app %>/images/{,**/}*.{png,jpg,jpeg,gif,webp}',
                     'test/spec/{,**/}*.js'
                 ],
                 //tasks: ['exec'],
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
                 }
             },
             express: {
-                files: ['server/{,*/}*.{js,json}'],
+                files: ['server/{,**/}*.{js,json}'],
                 tasks: ['express:dev'],
                 options: {
                     nospawn: true,
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
             },
             handlebars: {
                 files: [
-                    '<%= yeoman.app %>/scripts/{,*/}{,*/}*.hbs'
+                    '<%= yeoman.app %>/scripts/{,**/}*.hbs'
                 ],
                 tasks: ['handlebars'],
                 options: {
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
             },
             nothing: {
                 files: ['.foobar'],
-                tasks: ['express:prod']
+                tasks: ['build', 'express:prod']
             }
         },
 
@@ -140,12 +140,12 @@ module.exports = function (grunt) {
             },
             app: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/scripts/{,*/}{,*/}{,*/}*.js',
+                '<%= yeoman.app %>/scripts/{,**/}*.js',
                 'app-test/{,*/}*.js'
             ],
             server: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/server/{,*/}*.js',
+                '<%= yeoman.app %>/server/{,**/}*.js',
                 'server-test/{,*/}*.js'
             ]
         },
@@ -222,8 +222,8 @@ module.exports = function (grunt) {
         },
 
         usemin: {
-            html: ['<%= yeoman.dist %>/{,*/}*.html'],
-            css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+            html: ['<%= yeoman.dist %>/{,**/}*.html'],
+            css: ['<%= yeoman.dist %>/styles/{,**/}*.css'],
             options: {
                 dirs: ['<%= yeoman.dist %>']
             }
@@ -235,7 +235,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%= yeoman.app %>/images',
-                        src: '{,*/}*.{png,jpg,jpeg}',
+                        src: '{,**/}*.{png,jpg,jpeg}',
                         dest: '<%= yeoman.dist %>/images'
                     }
                 ]
@@ -246,7 +246,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     '<%= yeoman.dist %>/styles/main.css': [
-                        '.tmp/styles/{,*/}*.css',
+                        '.tmp/styles/{,**/}*.css',
                         '<%= yeoman.app %>/styles/{,*/}*.css'
                     ]
                 }
@@ -289,7 +289,7 @@ module.exports = function (grunt) {
                             '*.{ico,txt}',
                             '.htaccess',
                             'styles/fonts/*.*',
-                            'images/{,*/}*.{webp,gif}',
+                            'images/{,**/}*.{webp,gif}',
                             'bower_components/requirejs/require.js'
                         ]
                     }
