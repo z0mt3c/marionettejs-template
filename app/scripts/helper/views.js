@@ -4,7 +4,7 @@ define(['application', 'hbs!helper/templates/loading'], function(App, loadingTpl
             template: loadingTpl,
 
             initialize: function(options){
-                var options = options || {};
+                options = options || {};
                 this.title = options.title || 'Loading Data';
                 this.message = options.message || 'Please wait, data is loading.';
             },
@@ -13,7 +13,7 @@ define(['application', 'hbs!helper/templates/loading'], function(App, loadingTpl
                 return {
                     title: this.title,
                     message: this.message
-                }
+                };
             }
         });
     });
