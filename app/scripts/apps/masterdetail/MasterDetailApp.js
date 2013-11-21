@@ -6,11 +6,11 @@ define(['application', 'loglevel'], function (App, log) {
             log.debug('starting MasterDetailApp');
 
             /*
-            // possible but doesnt pass id
-            require(['apps/masterdetail/MasterDetailController'], function (Controller) {
-                Controller.showSide();
-            });
-            */
+             // possible but doesnt pass id
+             require(['apps/masterdetail/MasterDetailController'], function (Controller) {
+             Controller.showSide();
+             });
+             */
         };
 
         MasterDetailApp.onStop = function () {
@@ -35,14 +35,14 @@ define(['application', 'loglevel'], function (App, log) {
             showStart: function () {
                 require(['apps/masterdetail/MasterDetailController'], function (Controller) {
                     executeAction(Controller.showStart);
-                    Controller.showSide();
+                    executeAction(Controller.showSide);
                     App.execute('set:active:header', '/masterdetail');
                 });
             },
             showDetail: function (id) {
                 require(['apps/masterdetail/MasterDetailController'], function (Controller) {
                     executeAction(Controller.showDetail, id);
-                    Controller.showSide(id);
+                    executeAction(Controller.showSide, id);
                     App.execute('set:active:header', '/masterdetail');
                 });
             }

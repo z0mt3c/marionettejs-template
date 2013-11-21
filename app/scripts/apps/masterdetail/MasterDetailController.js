@@ -1,6 +1,7 @@
 define(['application', 'apps/masterdetail/MasterDetailView'], function (App, View) {
     function getLayout() {
         if (App.mainRegion.currentView && App.mainRegion.currentView instanceof View.Layout) {
+            // layout already loaded
             return App.mainRegion.currentView;
         } else {
             var layout = new View.Layout();
@@ -14,6 +15,7 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
             var layout = getLayout();
 
             if (layout.sideRegion.currentView) {
+                // side already loaded
                 return;
             }
 
