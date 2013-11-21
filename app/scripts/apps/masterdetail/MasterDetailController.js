@@ -21,11 +21,12 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
 
                 selectItem(preselectedId);
 
-                entities.on('select:one', function (model) {
+                view.listenTo(entities, 'select:one', function (model) {
                     App.trigger('masterdetail:detail', model.get('id'));
                 });
 
-                App.module('MasterDetailApp').on('side:select', selectItem);
+                view.listenTo(App.module('MasterDetailApp'), 'side:select', selectItem);
+
                 defer.resolve(view);
             });
         });
