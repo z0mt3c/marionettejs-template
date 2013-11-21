@@ -1,23 +1,11 @@
 define(['application', 'apps/masterdetail/MasterDetailView'], function (App, View) {
     function getLayout() {
+        var defer = $.Deferred();
+
         if (App.mainRegion.currentView && App.mainRegion.currentView instanceof View.Layout) {
-            // layout already loaded
-            return App.mainRegion.currentView;
+            defer.resolve(App.mainRegion.currentView);
         } else {
             var layout = new View.Layout();
-            App.mainRegion.show(layout);
-            return layout;
-        }
-    }
-
-    return {
-        showSide: function (id) {
-            var layout = getLayout();
-
-            if (layout.sideRegion.currentView) {
-                // side already loaded
-                return;
-            }
 
             require(['entities/masterdetail'], function () {
                 var fetchEntities = App.request('masterdetail:entities');
@@ -27,22 +15,27 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
                         collection: entities
                     });
 
-                    if (id) {
-                        entities.get(id).select();
-                    }
-
                     entities.on('select:one', function (model) {
                         App.trigger('masterdetail:detail', model.get('id'));
                     });
 
+                    App.mainRegion.show(layout);
                     layout.sideRegion.show(view);
+
+                    defer.resolve(layout);
                 });
             });
-        },
+        }
 
-        showDetail: function (id) {
-            var layout = getLayout();
+        return defer.promise();
+    }
 
+    var controller = {};
+
+    controller.showDetail = function (id) {
+        var loadLayout = getLayout();
+
+        $.when(loadLayout).done(function (layout) {
             require(['entities/masterdetail'], function () {
                 var fetchEntity = App.request('masterdetail:entity', id);
                 $.when(fetchEntity).done(function (entity) {
@@ -53,11 +46,16 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
                     layout.mainRegion.show(detailView);
                 });
             });
-        },
-
-        showStart: function () {
-            var layout = getLayout();
-            layout.mainRegion.show(new View.Empty({}));
-        }
+        });
     };
+
+    controller.showStart = function () {
+        var loadLayout = getLayout();
+
+        $.when(loadLayout).done(function (layout) {
+            layout.mainRegion.show(new View.Empty({}));
+        });
+    };
+
+    return controller;
 });
