@@ -15,7 +15,7 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
                     }
                 }
 
-                var view = new View.ManufacturerList({
+                var view = new View.Collection({
                     collection: entities
                 });
 
@@ -60,7 +60,7 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
                 require(['entities/masterdetail'], function () {
                     var fetchEntity = App.request('masterdetail:entity', id);
                     $.when(fetchEntity).done(function (entity) {
-                        var detailView = new View.Detail({
+                        var detailView = new View.Item({
                             model: entity
                         });
 

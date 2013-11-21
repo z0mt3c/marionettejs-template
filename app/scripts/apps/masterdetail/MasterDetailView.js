@@ -21,11 +21,11 @@ define([
         template: emptyTpl
     });
 
-    views.Detail = Backbone.Marionette.ItemView.extend({
+    views.Item = Backbone.Marionette.ItemView.extend({
         template: detailTpl
     });
 
-    views.ManufacturerItem = Backbone.Marionette.ItemView.extend({
+    views.CollectionItem = Backbone.Marionette.ItemView.extend({
         template: listItemTpl,
         tagName: 'a',
         className: 'list-group-item',
@@ -54,9 +54,9 @@ define([
         }
     });
 
-    views.ManufacturerList = Backbone.Marionette.CompositeView.extend({
+    views.Collection = Backbone.Marionette.CompositeView.extend({
         template: listTpl,
-        itemView: views.ManufacturerItem,
+        itemView: views.CollectionItem,
         itemViewContainer: 'div.list-group'
     });
 
