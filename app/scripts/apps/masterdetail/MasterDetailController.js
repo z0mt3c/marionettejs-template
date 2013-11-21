@@ -64,7 +64,6 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
                             model: entity
                         });
 
-                        App.module('MasterDetailApp').trigger('side:select', id);
                         layout.mainRegion.show(detailView);
                     });
                 });
@@ -74,7 +73,6 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
             var loadLayout = getLayout();
 
             $.when(loadLayout).done(function (layout) {
-                App.module('MasterDetailApp').trigger('side:select');
                 layout.mainRegion.show(new View.Empty({}));
             });
         }
