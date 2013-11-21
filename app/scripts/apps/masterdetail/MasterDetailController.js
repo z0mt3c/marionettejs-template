@@ -56,16 +56,15 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
         showDetail: function (id) {
             var loadLayout = getLayout(id);
 
-            $.when(loadLayout).done(function (layout) {
-                require(['entities/masterdetail'], function () {
-                    var fetchEntity = App.request('masterdetail:entity', id);
-                    $.when(fetchEntity).done(function (entity) {
-                        var detailView = new View.Item({
-                            model: entity
-                        });
+            require(['entities/masterdetail'], function () {
+                var fetchEntity = App.request('masterdetail:entity', id);
 
-                        layout.mainRegion.show(detailView);
+                $.when(loadLayout, fetchEntity).done(function (layout, entity) {
+                    var detailView = new View.Item({
+                        model: entity
                     });
+
+                    layout.mainRegion.show(detailView);
                 });
             });
         },
