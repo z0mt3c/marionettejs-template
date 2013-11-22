@@ -28,14 +28,14 @@ define(['application', 'loglevel'], function (App, log) {
             showStart: function () {
                 require(['apps/masterdetail/MasterDetailController'], function (Controller) {
                     executeAction(Controller.showStart);
-                    App.module('MasterDetailApp').trigger('side:select');
+                    App.trigger('masterdetail:side:select');
                     App.execute('set:active:header', '/masterdetail');
                 });
             },
             showDetail: function (id) {
                 require(['apps/masterdetail/MasterDetailController'], function (Controller) {
                     executeAction(Controller.showDetail, id);
-                    App.module('MasterDetailApp').trigger('side:select', id);
+                    App.trigger('masterdetail:side:select', id);
                     App.execute('set:active:header', '/masterdetail');
                 });
             }

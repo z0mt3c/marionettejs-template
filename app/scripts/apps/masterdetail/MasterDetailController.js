@@ -25,7 +25,7 @@ define(['application', 'apps/masterdetail/MasterDetailView'], function (App, Vie
                     App.trigger('masterdetail:detail', model.get('id'));
                 });
 
-                view.listenTo(App.module('MasterDetailApp'), 'side:select', selectItem);
+                view.listenTo(App, 'masterdetail:side:select', selectItem);
 
                 defer.resolve(view);
             });
