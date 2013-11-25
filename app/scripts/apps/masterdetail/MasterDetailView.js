@@ -28,7 +28,7 @@ define([
     views.CollectionItem = Backbone.Marionette.ItemView.extend({
         template: listItemTpl,
         tagName: 'a',
-        className: 'list-group-item',
+        className: 'md-list-item',
         attributes: {
             href: '#'
         },
@@ -57,7 +57,7 @@ define([
     views.Collection = Backbone.Marionette.CompositeView.extend({
         template: listTpl,
         itemView: views.CollectionItem,
-        itemViewContainer: 'div.list-group'
+        itemViewContainer: 'div.md-side-list'
     });
 
     return views;

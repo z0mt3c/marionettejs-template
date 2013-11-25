@@ -19,13 +19,25 @@ body {
 }
 
 .app-container {
+  // make container non-fluid
   @extend .container;
 }
 
+// master-Detail Demo
 .md-layout {
+  @extend .row;
+
   .md-side-region {
     @extend .col-md-3;
+
+    .md-side-list {
+      @extend .list-group;
+      .md-list-item {
+        @extend .list-group-item;
+      }
+    }
   }
+
   .md-main-region {
     @extend .col-md-9;
   }
