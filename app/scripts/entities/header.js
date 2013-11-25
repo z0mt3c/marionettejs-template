@@ -20,6 +20,7 @@ define(['application', 'backbone.picky'], function (App) {
             Entities.headers = new Entities.HeaderCollection([
                 { name: 'Start', url: '/start', navigationTrigger: 'default:start' },
                 { name: 'Hello', url: '/hello/Name', navigationTrigger: ['default:hello', 'Name'] },
+                { name: 'MasterDetail', url: '/masterdetail', navigationTrigger: 'masterdetail:start' },
                 { name: 'Demo', url: '/demo', navigationTrigger: 'demo:demo' }
             ]);
         };
