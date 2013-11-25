@@ -12,8 +12,8 @@ define([
     views.Layout = Backbone.Marionette.Layout.extend({
         template: layoutTpl,
         regions: {
-            sideRegion: '#side-md-region',
-            mainRegion: '#main-md-region'
+            sideRegion: '#md-side-region',
+            mainRegion: '#md-main-region'
         }
     });
 
