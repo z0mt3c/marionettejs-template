@@ -4,22 +4,20 @@
   "dependencies": {
     "sass-bootstrap-compass": "~3.0.x",
     "jquery": "~2.0.x",
-    "requirejs": "~2.1.5",
-    "requirejs-text": "~2.0.5",
-    "backbone": "~1.1.0",
-    "modernizr": "~2.6.2",
-    "backbone.marionette": "~1.2.1",
-    "backbone.wreqr": "~0.2.0",
+    "requirejs": "~2.1.x",
+    "requirejs-text": "~2.0.x",
+    "backbone": "~1.1.x",
+    "modernizr": "~2.7.x",
+    "backbone.marionette": "~1.5.x",
+    "backbone.wreqr": "~0.2.x",
     "backbone.babysitter": "~0.0.6",
-    "require-handlebars-plugin": "~0.4.0",
-    "mocha": "~1.12.0",
-    "font-awesome": "~3.2.1",
-    "almond": "~0.2.6",
+    "require-handlebars-plugin": "~0.7.0",
+    "font-awesome": "~4.0.x",
+    "almond": "~0.2.x",
     "clientconfig": "*",
-    "lodash": "~2.3.x",
+    "lodash": "~2.4.x",
     "loglevel": "~0.5.0",
     "backbone.picky": "~0.2.0"
   },
-  "devDependencies": {},
-  "directory": "bower_components"
+  "devDependencies": {}
 }
