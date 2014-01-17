@@ -8,7 +8,6 @@ var config = require('../config');
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var hbs = require('express-hbs');
 var _ = require('lodash');
 var app = express();
 
@@ -17,7 +16,6 @@ app.configure(function () {
     //app.use(express.urlencoded());
     app.use(express.compress());
     app.set('port', process.env.PORT || config.server.port || 9000);
-    app.set('view engine', 'handlebars');
 
     var configMiddleware = function(req, res, next) {
         res.cookie('config', JSON.stringify(config.clientAppSettings), { maxAge: 60000, httpOnly: false});
