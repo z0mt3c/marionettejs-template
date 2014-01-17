@@ -82,15 +82,6 @@ module.exports = function (grunt) {
             }
         },
 
-        // mocha command
-        exec: {
-            mocha: {
-                command: 'mocha-phantomjs http://localhost:<%= connect.testserver.options.port %>/test',
-                stdout: true
-            }
-        },
-
-
         // express app
         express: {
             options: {
@@ -376,12 +367,17 @@ module.exports = function (grunt) {
 
     // todo fix these
     grunt.registerTask('test', [
-        'clean:server',
-        'createDefaultTemplate',
-        'handlebars',
-        'compass',
-        'connect:testserver',
-        'exec:mocha'
+        //'clean:server',
+        //'createDefaultTemplate',
+        //'handlebars',
+        //'compass',
+        //'connect:testserver',
+        //'exec:mocha'
+        'test:server'
+    ]);
+
+    grunt.registerTask('test:server', [
+        'mochaTest'
     ]);
 
     grunt.registerTask('build', [
@@ -405,10 +401,6 @@ module.exports = function (grunt) {
         'build',
         'express:prod',
         'watch:nothing'
-    ]);
-
-    grunt.registerTask('test:server', [
-        'mochaTest'
     ]);
 
     grunt.registerTask('dist', [
