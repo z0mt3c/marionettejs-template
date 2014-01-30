@@ -4,7 +4,7 @@ define([
     'clientconfig',
     'loglevel',
     'helper/dialogRegion',
-    'hbs!template/main'
+    'hbs!templates/main'
 ],
     function (Backbone, Communicator, config, log, dialogRegion, mainTmpl) {
         'use strict';

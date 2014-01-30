@@ -1,4 +1,4 @@
-define('template/helpers/eachProperty', ['handlebars'], function (Handlebars) {
+define('templates/helpers/eachProperty', ['hbs/handlebars'], function (Handlebars) {
     function eachProperty(context, options) {
         var ret = '';
         var i = 0;
