@@ -302,7 +302,7 @@ module.exports = function (grunt) {
                     amd: true
                 },
                 files: {
-                    '.tmp/scripts/templates.js': ['<%= yeoman.app %>/template/**/*.hbs', '<%= yeoman.app %>/scripts/**/template/*.hbs']
+                    '.tmp/scripts/templates.js': ['<%= yeoman.app %>/scripts/{,**/}templates/*.hbs', '<%= yeoman.app %>/scripts/{,**/}template/*.hbs']
                 }
             }
         },
