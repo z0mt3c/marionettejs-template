@@ -172,7 +172,7 @@ module.exports = function (grunt) {
                     preserveLicenseComments: false,
                     findNestedDependencies: true,
                     paths: {
-                        'templates': '../../.tmp/scripts/templates'
+                        'templates': '../../app/scripts/templates'
                     },
                     replaceRequireScript: [
                         {
