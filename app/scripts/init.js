@@ -24,7 +24,7 @@ require.config({
         },
 
         bootstrap: {
-            deps: ['jquery'],
+            deps: ['jquery', 'bootstrap.modal'],
             exports: 'jquery'
         }
     },
@@ -42,7 +42,19 @@ require.config({
         'backbone.picky': '../bower_components/backbone.picky/lib/amd/backbone.picky',
 
         /* alias the bootstrap js lib */
-        bootstrap: 'vendor/bootstrap',
+        'bootstrap': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/bootstrap',
+        'bootstrap.affix': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/affix',
+        'bootstrap.alert': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/alert',
+        'bootstrap.button': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/button',
+        'bootstrap.carousel': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/carousel',
+        'bootstrap.collapse': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/collapse',
+        'bootstrap.dropdown': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/dropdown',
+        'bootstrap.modal': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/modal',
+        'bootstrap.popover': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/popover',
+        'bootstrap.scrollspy': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/scrollspy',
+        'bootstrap.tab': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/tab',
+        'bootstrap.tooltip': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/tooltip',
+        'bootstrap.transition': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/transition',
 
         /* Alias text.js for template loading and shortcut the templates dir to tmpl */
         text: '../bower_components/requirejs-text/text',

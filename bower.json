@@ -2,7 +2,7 @@
   "name": "driving",
   "version": "0.0.0",
   "dependencies": {
-    "sass-bootstrap-compass": "~3.0.x",
+    "twbs-bootstrap-sass": "~3.1.x",
     "jquery": "~2.0.x",
     "requirejs": "~2.1.x",
     "requirejs-text": "~2.0.x",
