@@ -3,7 +3,7 @@ require.config({
     baseUrl: '/scripts',
 
     /* starting point for application */
-    deps: ['backbone.marionette', 'bootstrap', 'main'],
+    deps: ['backbone.marionette', 'main'],
 
 
     shim: {
@@ -23,10 +23,18 @@ require.config({
             exports: 'Backbone'
         },
 
-        bootstrap: {
-            deps: ['jquery', 'bootstrap.modal'],
-            exports: 'jquery'
-        }
+        'bootstrap.affix': { deps: ['jquery'] },
+        'bootstrap.alert': { deps: ['jquery'] },
+        'bootstrap.button': { deps: ['jquery'] },
+        'bootstrap.carousel': { deps: ['jquery'] },
+        'bootstrap.collapse': { deps: ['jquery'] },
+        'bootstrap.dropdown': { deps: ['jquery'] },
+        'bootstrap.modal': { deps: ['jquery'] },
+        'bootstrap.popover': { deps: ['jquery'] },
+        'bootstrap.scrollspy': { deps: ['jquery'] },
+        'bootstrap.tab': { deps: ['jquery'] },
+        'bootstrap.tooltip': { deps: ['jquery'] },
+        'bootstrap.transition': { deps: ['jquery'] }
     },
 
     paths: {
@@ -42,7 +50,6 @@ require.config({
         'backbone.picky': '../bower_components/backbone.picky/lib/amd/backbone.picky',
 
         /* alias the bootstrap js lib */
-        'bootstrap': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/bootstrap',
         'bootstrap.affix': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/affix',
         'bootstrap.alert': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/alert',
         'bootstrap.button': '../bower_components/twbs-bootstrap-sass/vendor/assets/javascripts/bootstrap/button',

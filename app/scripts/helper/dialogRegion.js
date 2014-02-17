@@ -1,4 +1,4 @@
-define(['backbone'], function (Backbone) {
+define(['backbone', 'bootstrap.modal'], function (Backbone, bsModal) {
     var region = Backbone.Marionette.Region.extend({
         el: '#dialog',
 
