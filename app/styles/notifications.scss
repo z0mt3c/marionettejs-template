@@ -1,0 +1,18 @@
+.notifications {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  width: 300px;
+  z-index: 5000;
+  ul.notification-list {
+    @extend .list-group;
+
+    li.notification-item {
+      @extend .list-group-item;
+      &.success { @extend .list-group-item-success; }
+      &.info { @extend .list-group-item-info; }
+      &.warning { @extend .list-group-item-warning; }
+      &.danger { @extend .list-group-item-danger; }
+    }
+  }
+}

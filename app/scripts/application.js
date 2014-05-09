@@ -19,6 +19,7 @@ define([
         App.addRegions({
             headerRegion: '#header-region',
             navigationRegion: '#navigation-region',
+            notificationRegion: '#notification-region',
             mainRegion: '#main-region',
             dialogRegion: dialogRegion
         });

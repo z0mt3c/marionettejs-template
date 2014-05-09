@@ -12,6 +12,8 @@ $font-size-h6:            ceil($font-size-base * 0.85) ; // ~12px
 
 @import 'twbs-bootstrap-sass/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
+@import 'animate';
+@import 'notifications';
 
 body {
   padding-top: 50px;
