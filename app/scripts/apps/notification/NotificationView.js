@@ -8,7 +8,7 @@ define(['application',
         views.Notification = Backbone.Marionette.ItemView.extend({
             template: listItemTpl,
             tagName: 'li',
-            className: 'notification-item animated bounceInRight',
+            className: 'notification-item animated fadeInRightBig fast',
             events: {
             },
             onRender: function() {

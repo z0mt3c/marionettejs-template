@@ -1,18 +1,58 @@
+@import 'twbs-bootstrap-sass/vendor/assets/stylesheets/bootstrap';
+@import 'font-awesome/scss/font-awesome';
+
 .notifications {
   position: fixed;
   top: 15px;
   right: 15px;
-  width: 300px;
+  width: 320px;
   z-index: 5000;
+
   ul.notification-list {
     @extend .list-group;
 
     li.notification-item {
       @extend .list-group-item;
-      &.success { @extend .list-group-item-success; }
-      &.info { @extend .list-group-item-info; }
-      &.warning { @extend .list-group-item-warning; }
-      &.danger { @extend .list-group-item-danger; }
+      position: relative;
+
+      i {
+        position: absolute;
+        top: 50%;
+        margin-top: -14px;
+
+        &.icon-danger {
+          @extend .fa-exclamation-circle;
+        }
+        &.icon-warning {
+          @extend .fa-exclamation-triangle;
+        }
+        &.icon-info {
+          @extend .fa-info-circle;
+        }
+        &.icon-success {
+          @extend .fa-check-circle;
+        }
+      }
+
+      .notification-body {
+        margin-left: 40px;
+      }
+
+      &.success {
+        @extend .list-group-item-success;
+      }
+
+      &.info {
+        @extend .list-group-item-info;
+      }
+
+      &.warning {
+        @extend .list-group-item-warning;
+      }
+
+      &.danger {
+        @extend .list-group-item-danger;
+      }
     }
   }
 }

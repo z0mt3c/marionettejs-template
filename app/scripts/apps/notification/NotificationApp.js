@@ -9,12 +9,6 @@ define(['application', 'apps/notification/NotificationController'], function (Ap
             }
         };
 
-        /*
-         App.commands.setHandler('set:active:header', function (name) {
-         NotificationController.setActiveHeader(name);
-         });
-         */
-
         NotificationApp.on('start', function () {
             API.showNotifications();
 
