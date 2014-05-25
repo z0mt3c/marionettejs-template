@@ -7,18 +7,27 @@ module.exports = function (grunt) {
     // configurable paths
     var yeomanConfig = {
         app: 'app',
-        dist: 'dist'
+        dist: 'dist',
+        tmp: '.tmp'
     };
 
+   
     grunt.initConfig({
         yeoman: yeomanConfig,
         packageInfo: packageInfo,
 
         // watch list
         watch: {
-            compass: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass']
+            
+
+            //compass: {
+            //    files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+            //    tasks: ['compass']
+            //},
+
+            less: {
+                files: ['<%= yeoman.app %>/styles/{,**/}*.less'],
+                tasks: ['less:development']
             },
             livereload: {
                 files: [
@@ -141,7 +150,33 @@ module.exports = function (grunt) {
             ]
         },
 
+        //less
+
+        less: {
+            development: {
+              options: {
+                  paths: ['<%= yeoman.app %>/bower_components'],
+                  cleancss: false,
+                  sourceMap: true,
+                  outputSourceFiles: true
+                },
+                files: {
+                  '<%= yeoman.tmp %>/styles/main.css': '<%= yeoman.app %>/styles/main.less'
+                }
+            },
+            dist: {
+              options: {
+                  paths: ['<%= yeoman.app %>/bower_components'],
+                  cleancss: true
+                },
+                files: {
+                  '<%= yeoman.dist %>/styles/main.css': '<%= yeoman.app %>/styles/main.less'
+                }
+            }
+        },
+
         // compass
+        /**
         compass: {
             options: {
                 sassDir: '<%= yeoman.app %>/styles',
@@ -159,6 +194,7 @@ module.exports = function (grunt) {
                 }
             }
         },
+        **/
 
         requirejs: {
             compile: {
@@ -356,7 +392,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
-            'compass:server',
+            'less:development',
             'connect:testserver',
             'express:dev',
             //'exec',
@@ -384,7 +420,7 @@ module.exports = function (grunt) {
         'clean',
         'createDefaultTemplate',
         'handlebars',
-        'compass:dist',
+        'less:dist',
         'useminPrepare',
         'imagemin',
         'htmlmin',
@@ -405,6 +441,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('dist', [
         'build',
-        'compress'
+        'less:dist'
     ]);
 };
