@@ -3,7 +3,7 @@
 @import "bootstrap/less/bootstrap.less";
 @import "font-awesome/less/font-awesome.less";
 
-@fa-font-path: '/styles/fonts';
+@fa-font-path: '/fonts';
 
 /**
 $font-size-base:          14px !default;
@@ -24,31 +24,6 @@ body {
   padding-bottom: 70px;
 }
 
-
-
 .app-container {
   &:extend(.container);
 }
-
-// master-Detail Demo
-.md-layout {
-  &:extend(.row);
- 
-  .md-side-region {
-    &:extend(.col-md-3);
-
-    .md-side-list {
-      &:extend(.list-group)  ;   
-      .md-list-item {
-         &:extend(.list-group-item)  ;  
-
-      }
-    }
-  }
-
-  .md-main-region {
-     &:extend(.col-md-9);   
-  }
-}
-
-

@@ -7,10 +7,7 @@
   z-index: 5000;
 
   ul.notification-list {
-    &:extend(.list-group);
-
     li.notification-item {
-      &:extend(.list-group-item);
       position: relative;
 
       i {
@@ -18,38 +15,22 @@
         top: 50%;
         margin-top: -14px;
 
-        &.icon-danger {
-          &:extend(.fa-exclamation-circle);
+        &.icon-danger:before {
+          content: "\f06a";
         }
-        &.icon-warning {
-          &:extend(.fa-exclamation-triangle);
+        &.icon-warning:before {
+          content: "\f071";
         }
-        &.icon-info {
-          &:extend(.fa-info-circle);
+        &.icon-info:before {
+          content: "\f05a";
         }
-        &.icon-success {
-          &:extend(.fa-check-circle);
+        &.icon-success:before {
+          content: "\f058";
         }
       }
 
       .notification-body {
         margin-left: 40px;
-      }
-
-      &.success {
-        &:extend(.list-group-item-success);
-      }
-
-      &.info {
-        &:extend(.list-group-item-info);
-      }
-
-      &.warning {
-        &:extend(.list-group-item-warning);
-      }
-
-      &.danger {
-        &:extend(.list-group-item-danger);
       }
     }
   }
