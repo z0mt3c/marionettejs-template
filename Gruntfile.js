@@ -36,14 +36,6 @@ module.exports = function (grunt) {
                     livereload: true
                 }
             },
-            express: {
-                files: ['server/{,**/}*.{js,json}'],
-                tasks: ['express:dev'],
-                options: {
-                    nospawn: true,
-                    livereload: true
-                }
-            },
             handlebars: {
                 files: [
                     '<%= yeoman.app %>/scripts/{,**/}*.hbs'
@@ -55,7 +47,7 @@ module.exports = function (grunt) {
             },
             nothing: {
                 files: ['.foobar'],
-                tasks: ['build', 'express:prod']
+                tasks: ['build']
             }
         },
 
@@ -82,33 +74,6 @@ module.exports = function (grunt) {
                 ]
             }
         },
-
-        // express app
-        express: {
-            options: {
-                // Override defaults here
-                port: '9000'
-            },
-            dev: {
-                options: {
-                    'node_env': 'development',
-                    script: 'server/app.js'
-                }
-            },
-            prod: {
-                options: {
-                    'node_env': 'production',
-                    script: 'server/app.js'
-                }
-            },
-            test: {
-                options: {
-                    'node_env': 'test',
-                    script: 'server/app.js'
-                }
-            }
-        },
-
 
         // open app and test page
         open: {
@@ -379,7 +344,6 @@ module.exports = function (grunt) {
         grunt.file.write('.tmp/scripts/templates.js', 'this.JST = this.JST || {};');
     });
 
-    // starts express server with live testing via testserver
     grunt.registerTask('default', function (target) {
 
         // what is this??
