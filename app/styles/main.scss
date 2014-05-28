@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-$FontAwesomePath: "/styles/fonts";
+$fa-font-path: "/styles/fonts";
 
 $font-size-base:          14px !default;
 $font-size-h1:            floor($font-size-base * 1.6); // ~36px
@@ -20,29 +20,3 @@ body {
   padding-top: 50px;
   padding-bottom: 70px;
 }
-
-.app-container {
-  // make container non-fluid
-  @extend .container;
-}
-
-// master-Detail Demo
-.md-layout {
-  @extend .row;
-
-  .md-side-region {
-    @extend .col-md-3;
-
-    .md-side-list {
-      @extend .list-group;
-      .md-list-item {
-        @extend .list-group-item;
-      }
-    }
-  }
-
-  .md-main-region {
-    @extend .col-md-9;
-  }
-}
-

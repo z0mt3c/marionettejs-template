@@ -12,8 +12,8 @@ define([
     views.Layout = Backbone.Marionette.Layout.extend({
         template: layoutTpl,
         regions: {
-            sideRegion: '#md-side-region',
-            mainRegion: '#md-main-region'
+            sideRegion: '#md-side',
+            mainRegion: '#md-main'
         }
     });
 
@@ -28,7 +28,7 @@ define([
     views.CollectionItem = Backbone.Marionette.ItemView.extend({
         template: listItemTpl,
         tagName: 'a',
-        className: 'md-list-item',
+        className: 'list-group-item',
         attributes: {
             href: '#'
         },
@@ -44,7 +44,7 @@ define([
             this.model.select();
         },
         onRender: function () {
-            this.$el.attr('href', '/masterdetail/'+this.model.get('id'));
+            this.$el.attr('href', '/masterdetail/' + this.model.id);
 
             if (this.model.selected) {
                 this.$el.addClass('active');
@@ -57,7 +57,7 @@ define([
     views.Collection = Backbone.Marionette.CompositeView.extend({
         template: listTpl,
         itemView: views.CollectionItem,
-        itemViewContainer: 'div.md-side-list'
+        itemViewContainer: 'div.list-group'
     });
 
     return views;
