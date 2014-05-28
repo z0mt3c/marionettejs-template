@@ -322,21 +322,12 @@ module.exports = function (grunt) {
             }
         },
 
-        mochaTest: {
-            app: {
+        concurrent: {
+            development: {
+                tasks: ['nodemon:development', 'watch'],
                 options: {
-                    reporter: 'spec',
-                    require: 'server-test/blanketHelper'
-                },
-                src: ['server-test/**/*.js']
-            },
-            appCoverage: {
-                options: {
-                    reporter: 'html-cov',
-                    quiet: true,
-                    captureFile: './out/coverage.html'
-                },
-                src: ['server-test/**/*.js']
+                    logConcurrentOutput: true
+                }
             }
         },
 
@@ -401,28 +392,11 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'compass:server',
-            'connect:testserver',
-            'nodemon:development',
+            'concurrent:development'
             //'exec',
             //'open',
-            'watch'
         ]);
     });
-
-    // todo fix these
-    grunt.registerTask('test', [
-        //'clean:server',
-        //'createDefaultTemplate',
-        //'handlebars',
-        //'compass',
-        //'connect:testserver',
-        //'exec:mocha'
-        'test:server'
-    ]);
-
-    grunt.registerTask('test:server', [
-        'mochaTest'
-    ]);
 
     grunt.registerTask('build', [
         'clean',
