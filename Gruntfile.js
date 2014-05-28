@@ -37,14 +37,6 @@ module.exports = function (grunt) {
                     livereload: true
                 }
             },
-            express: {
-                files: ['server/{,**/}*.{js,json}'],
-                tasks: ['express:dev'],
-                options: {
-                    nospawn: true,
-                    livereload: true
-                }
-            },
             handlebars: {
                 files: [
                     '<%= yeoman.app %>/scripts/{,**/}*.hbs'
@@ -56,7 +48,7 @@ module.exports = function (grunt) {
             },
             nothing: {
                 files: ['.foobar'],
-                tasks: ['build', 'express:prod']
+                tasks: ['build']
             }
         },
 
@@ -300,21 +292,12 @@ module.exports = function (grunt) {
             }
         },
 
-        mochaTest: {
-            app: {
+        concurrent: {
+            development: {
+                tasks: ['nodemon:development', 'watch'],
                 options: {
-                    reporter: 'spec',
-                    require: 'server-test/blanketHelper'
-                },
-                src: ['server-test/**/*.js']
-            },
-            appCoverage: {
-                options: {
-                    reporter: 'html-cov',
-                    quiet: true,
-                    captureFile: './out/coverage.html'
-                },
-                src: ['server-test/**/*.js']
+                    logConcurrentOutput: true
+                }
             }
         },
 
@@ -366,7 +349,6 @@ module.exports = function (grunt) {
         grunt.file.write('.tmp/scripts/templates.js', 'this.JST = this.JST || {};');
     });
 
-    // starts express server with live testing via testserver
     grunt.registerTask('default', function (target) {
 
         // what is this??
@@ -379,28 +361,11 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'less:development',
-            'connect:testserver',
-            'nodemon:development',
+            'concurrent:development'
             //'exec',
             //'open',
-            'watch'
         ]);
     });
-
-    // todo fix these
-    grunt.registerTask('test', [
-        //'clean:server',
-        //'createDefaultTemplate',
-        //'handlebars',
-        //'compass',
-        //'connect:testserver',
-        //'exec:mocha'
-        'test:server'
-    ]);
-
-    grunt.registerTask('test:server', [
-        'mochaTest'
-    ]);
 
     grunt.registerTask('build', [
         'clean',
