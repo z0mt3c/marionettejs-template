@@ -11,7 +11,7 @@ module.exports = function (grunt) {
         tmp: '.tmp'
     };
 
-   
+
     grunt.initConfig({
         yeoman: yeomanConfig,
         packageInfo: packageInfo,
@@ -84,37 +84,10 @@ module.exports = function (grunt) {
             }
         },
 
-        // express app
-        express: {
-            options: {
-                // Override defaults here
-                port: '9000'
-            },
-            dev: {
-                options: {
-                    'node_env': 'development',
-                    script: 'server/app.js'
-                }
-            },
-            prod: {
-                options: {
-                    'node_env': 'production',
-                    script: 'server/app.js'
-                }
-            },
-            test: {
-                options: {
-                    'node_env': 'test',
-                    script: 'server/app.js'
-                }
-            }
-        },
-
-
         // open app and test page
         open: {
             server: {
-                path: 'http://localhost:<%= express.options.port %>'
+                path: 'http://localhost:8000'
             }
         },
 
@@ -143,51 +116,28 @@ module.exports = function (grunt) {
             ]
         },
 
-        //less
-
         less: {
             development: {
-              options: {
-                  paths: ['<%= yeoman.app %>/bower_components'],
-                  cleancss: false,
-                  sourceMap: true,
-                  outputSourceFiles: true
+                options: {
+                    paths: ['<%= yeoman.app %>/bower_components'],
+                    cleancss: false,
+                    sourceMap: true,
+                    outputSourceFiles: true
                 },
                 files: {
-                  '<%= yeoman.tmp %>/styles/main.css': '<%= yeoman.app %>/styles/main.less'
+                    '<%= yeoman.tmp %>/styles/main.css': '<%= yeoman.app %>/styles/main.less'
                 }
             },
             dist: {
-              options: {
-                  paths: ['<%= yeoman.app %>/bower_components'],
-                  cleancss: true
+                options: {
+                    paths: ['<%= yeoman.app %>/bower_components'],
+                    cleancss: true
                 },
                 files: {
-                  '<%= yeoman.dist %>/styles/main.css': '<%= yeoman.app %>/styles/main.less'
+                    '<%= yeoman.dist %>/styles/main.css': '<%= yeoman.app %>/styles/main.less'
                 }
             }
         },
-
-        // compass
-        /**
-        compass: {
-            options: {
-                sassDir: '<%= yeoman.app %>/styles',
-                cssDir: '.tmp/styles',
-                imagesDir: '<%= yeoman.app %>/images',
-                javascriptsDir: '<%= yeoman.app %>/scripts',
-                fontsDir: '<%= yeoman.app %>/styles/fonts',
-                importPath: 'app/bower_components',
-                relativeAssets: true
-            },
-            dist: {},
-            server: {
-                options: {
-                    debugInfo: true
-                }
-            }
-        },
-        **/
 
         requirejs: {
             compile: {
@@ -366,6 +316,49 @@ module.exports = function (grunt) {
                 },
                 src: ['server-test/**/*.js']
             }
+        },
+
+        nodemon: {
+            development: {
+                script: 'standalone-server/server.js',
+                options: {
+                    callback: function (nodemon) {
+                        nodemon.on('log', function (event) {
+                            console.log(event.colour);
+                        });
+                    },
+                    env: {
+                        NODE_ENV: 'development',
+                        PORT: 8000
+                    },
+                    cwd: __dirname,
+                    watch: ['plugin', 'standalone-server'],
+                    ignore: ['node_modules/**'],
+                    ext: 'js',
+                    delay: 1000,
+                    legacyWatch: true
+                }
+            },
+            production: {
+                script: 'standalone-server/server.js',
+                options: {
+                    callback: function (nodemon) {
+                        nodemon.on('log', function (event) {
+                            console.log(event.colour);
+                        });
+                    },
+                    env: {
+                        NODE_ENV: 'production',
+                        PORT: 8000
+                    },
+                    cwd: __dirname,
+                    watch: ['plugin', 'standalone-server'],
+                    ignore: ['node_modules/**'],
+                    ext: 'js',
+                    delay: 1000,
+                    legacyWatch: true
+                }
+            }
         }
     });
 
@@ -387,7 +380,7 @@ module.exports = function (grunt) {
             'clean:server',
             'less:development',
             'connect:testserver',
-            'express:dev',
+            'nodemon:development',
             //'exec',
             //'open',
             'watch'
@@ -428,8 +421,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('prod', [
         'build',
-        'express:prod',
-        'watch:nothing'
+        'nodemon:production'
     ]);
 
     grunt.registerTask('dist', [
