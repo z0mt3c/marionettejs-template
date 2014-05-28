@@ -1,0 +1,15 @@
+{
+    "servers": [
+        {
+            "port": 8000,
+            "options": {
+                "labels": ["web"]
+            }
+        }
+    ],
+    "plugins": {
+        "/Users/z0mt3c/git/golf-app": {
+
+        }
+    }
+}

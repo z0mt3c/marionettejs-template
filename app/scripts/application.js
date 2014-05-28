@@ -1,17 +1,14 @@
 define([
     'backbone',
     'communicator',
-    'clientconfig',
     'loglevel',
     'helper/dialogRegion',
     'hbs!templates/main'
 ],
-    function (Backbone, Communicator, config, log, dialogRegion, mainTmpl) {
+    function (Backbone, Communicator, log, dialogRegion, mainTmpl) {
         'use strict';
-
         // set log level - fallback: SILENT (5)
-        log.setLevel(config.loglevel || 5); //
-        log.debug('Configuration loaded:', config);
+        log.setLevel(1); //
 
         var App = new Backbone.Marionette.Application();
 
@@ -59,7 +56,7 @@ define([
         });
 
         var initializeRouter = function () {
-            Backbone.history.start({ pushState: true });
+            Backbone.history.start({ pushState: false });
 
         };
 

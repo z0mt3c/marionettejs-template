@@ -7,7 +7,8 @@ module.exports = function (grunt) {
     // configurable paths
     var yeomanConfig = {
         app: 'app',
-        dist: 'dist'
+        dist: 'dist',
+        tmp: '.tmp'
     };
 
     grunt.initConfig({
@@ -112,7 +113,7 @@ module.exports = function (grunt) {
         // open app and test page
         open: {
             server: {
-                path: 'http://localhost:<%= express.options.port %>'
+                path: 'http://localhost:8000'
             }
         },
 
@@ -143,7 +144,7 @@ module.exports = function (grunt) {
 
         // compass
         compass: {
-            options: {
+                options: {
                 sassDir: '<%= yeoman.app %>/styles',
                 cssDir: '.tmp/styles',
                 imagesDir: '<%= yeoman.app %>/images',
@@ -337,6 +338,49 @@ module.exports = function (grunt) {
                 },
                 src: ['server-test/**/*.js']
             }
+        },
+
+        nodemon: {
+            development: {
+                script: 'standalone-server/server.js',
+                options: {
+                    callback: function (nodemon) {
+                        nodemon.on('log', function (event) {
+                            console.log(event.colour);
+                        });
+                    },
+                    env: {
+                        NODE_ENV: 'development',
+                        PORT: 8000
+                    },
+                    cwd: __dirname,
+                    watch: ['plugin', 'standalone-server'],
+                    ignore: ['node_modules/**'],
+                    ext: 'js',
+                    delay: 1000,
+                    legacyWatch: true
+                }
+            },
+            production: {
+                script: 'standalone-server/server.js',
+                options: {
+                    callback: function (nodemon) {
+                        nodemon.on('log', function (event) {
+                            console.log(event.colour);
+                        });
+                    },
+                    env: {
+                        NODE_ENV: 'production',
+                        PORT: 8000
+                    },
+                    cwd: __dirname,
+                    watch: ['plugin', 'standalone-server'],
+                    ignore: ['node_modules/**'],
+                    ext: 'js',
+                    delay: 1000,
+                    legacyWatch: true
+                }
+            }
         }
     });
 
@@ -358,7 +402,7 @@ module.exports = function (grunt) {
             'clean:server',
             'compass:server',
             'connect:testserver',
-            'express:dev',
+            'nodemon:development',
             //'exec',
             //'open',
             'watch'
@@ -399,8 +443,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('prod', [
         'build',
-        'express:prod',
-        'watch:nothing'
+        'nodemon:production'
     ]);
 
     grunt.registerTask('dist', [
