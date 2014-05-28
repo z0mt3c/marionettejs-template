@@ -18,13 +18,6 @@ module.exports = function (grunt) {
 
         // watch list
         watch: {
-            
-
-            //compass: {
-            //    files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-            //    tasks: ['compass']
-            //},
-
             less: {
                 files: ['<%= yeoman.app %>/styles/{,**/}*.less'],
                 tasks: ['less:development']

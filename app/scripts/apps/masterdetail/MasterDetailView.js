@@ -12,8 +12,8 @@ define([
     views.Layout = Backbone.Marionette.Layout.extend({
         template: layoutTpl,
         regions: {
-            sideRegion: '#md-side-region',
-            mainRegion: '#md-main-region'
+            sideRegion: '#md-side',
+            mainRegion: '#md-main'
         }
     });
 
@@ -44,7 +44,7 @@ define([
             this.model.select();
         },
         onRender: function () {
-            this.$el.attr('href', '/masterdetail/'+this.model.get('id'));
+            this.$el.attr('href', '/masterdetail/' + this.model.id);
 
             if (this.model.selected) {
                 this.$el.addClass('active');
