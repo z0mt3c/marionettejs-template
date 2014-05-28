@@ -301,6 +301,14 @@ module.exports = function (grunt) {
             }
         },
 
+        processhtml: {
+            dist: {
+                files: {
+                    'dist/index.html': ['dist/index.html']
+                }
+            }
+        },
+
         nodemon: {
             development: {
                 script: 'standalone-server/server.js',
@@ -350,7 +358,6 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', function (target) {
-
         // what is this??
         if (target === 'dist') {
             return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
@@ -375,6 +382,7 @@ module.exports = function (grunt) {
         'useminPrepare',
         'imagemin',
         'htmlmin',
+        'processhtml:dist',
         'concat',
         'cssmin',
         'uglify',
