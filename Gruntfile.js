@@ -131,6 +131,17 @@ module.exports = function (grunt) {
             }
         },
 
+        browserify: {
+            app: {
+                options: {
+                    transform: ['hbsfy', 'browserify-shim'],
+                    debug: true
+                },
+                src: ['<%= yeoman.app %>/scripts/main.js'],
+                dest: '<%= yeoman.dist %>/scripts/main.js'
+            }
+        },
+
         requirejs: {
             compile: {
                 options: {
@@ -251,8 +262,7 @@ module.exports = function (grunt) {
                             '*.{ico,txt}',
                             '.htaccess',
                             'styles/fonts/*.*',
-                            'images/{,**/}*.{webp,gif}',
-                            'bower_components/requirejs/require.js'
+                            'images/{,**/}*.{webp,gif}'
                         ]
                     }
                 ]
@@ -387,8 +397,8 @@ module.exports = function (grunt) {
         'cssmin',
         'uglify',
         'copy',
-        'requirejs',
-        'rev',
+        'browserify',
+        //'rev',
         'usemin'
     ]);
 

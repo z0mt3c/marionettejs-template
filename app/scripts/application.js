@@ -1,82 +1,82 @@
-define([
-    'backbone',
-    'communicator',
-    'loglevel',
-    'helper/dialogRegion',
-    'hbs!templates/main'
-],
-    function (Backbone, Communicator, log, dialogRegion, mainTmpl) {
-        'use strict';
-        // set log level - fallback: SILENT (5)
-        log.setLevel(1); //
+/*
+ 'hbs!templates/main'
+ */
 
-        var App = new Backbone.Marionette.Application();
+var $ = require('jquery');
+var log = require('loglevel');
+var Marionette = require('marionette');
+var dialogRegion = require('./helper/dialogRegion');
+var mainTmpl = require('./templates/main.hbs');
 
-        /* Add application regions here */
-        App.addRegions({
-            headerRegion: '#header-region',
-            navigationRegion: '#navigation-region',
-            notificationRegion: '#notification-region',
-            mainRegion: '#main-region',
-            dialogRegion: dialogRegion
-        });
+'use strict';
+// set log level - fallback: SILENT (5)
+log.setLevel(1); //
 
-        App.navigate = function (route, options) {
-            if (!options) {
-                options = {};
-            }
+var App = new Marionette.Application();
 
-            Backbone.history.navigate(route, options);
-        };
+/* Add application regions here */
+App.addRegions({
+    headerRegion: '#header-region',
+    navigationRegion: '#navigation-region',
+    notificationRegion: '#notification-region',
+    mainRegion: '#main-region',
+    dialogRegion: dialogRegion
+});
 
-        App.getCurrentRoute = function () {
-            return Backbone.history.fragment;
-        };
+App.navigate = function (route, options) {
+    if (!options) {
+        options = {};
+    }
 
-        App.startSubApp = function (appName, args) {
-            var currentApp = appName ? App.module(appName) : null;
-            if (App.currentApp === currentApp) {
-                return;
-            }
+    Backbone.history.navigate(route, options);
+};
 
-            if (App.currentApp) {
-                App.currentApp.stop();
-            }
+App.getCurrentRoute = function () {
+    return Backbone.history.fragment;
+};
 
-            App.currentApp = currentApp;
-            if (currentApp) {
-                currentApp.start(args);
-            }
-        };
+App.startSubApp = function (appName, args) {
+    var currentApp = appName ? App.module(appName) : null;
+    if (App.currentApp === currentApp) {
+        return;
+    }
 
-        /* Add initializers here */
-        App.addInitializer(function () {
-            Communicator.mediator.trigger('app:start');
-            document.body.innerHTML = mainTmpl({});
-        });
+    if (App.currentApp) {
+        App.currentApp.stop();
+    }
 
-        var initializeRouter = function () {
-            Backbone.history.start({ pushState: false });
+    App.currentApp = currentApp;
+    if (currentApp) {
+        currentApp.start(args);
+    }
+};
 
-        };
+/* Add initializers here */
+App.addInitializer(function () {
+    document.body.innerHTML = mainTmpl({});
+});
 
-        App.on('initialize:after', function () {
-            if (Backbone.history) {
-                require(['apps/default/DefaultApp', 'apps/demo/DemoApp', 'apps/masterdetail/MasterDetailApp'], function () {
-                    initializeRouter();
+var initializeRouter = function () {
+    Backbone.history.start({ pushState: false });
 
-                    if (App.getCurrentRoute() === '') {
-                        App.trigger('default:start');
-                    }
-                });
-            }
+};
 
-            $('.nav a').on('click', function () {
-                if ($('.navbar-collapse').hasClass('in')) {
-                    $('.navbar-toggle').click();
-                }
-            });
-        });
+App.on('initialize:after', function () {
+    if (Backbone.history) {
+        s//require(['apps/default/DefaultApp', 'apps/demo/DemoApp', 'apps/masterdetail/MasterDetailApp'], function () {
+        initializeRouter();
 
-        return App;
+        if (App.getCurrentRoute() === '') {
+            App.trigger('default:start');
+        }
+        //});
+    }
+
+    $('.nav a').on('click', function () {
+        if ($('.navbar-collapse').hasClass('in')) {
+            $('.navbar-toggle').click();
+        }
     });
+});
+
+module.exports = App;
