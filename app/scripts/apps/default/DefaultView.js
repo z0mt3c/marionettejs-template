@@ -1,29 +1,27 @@
-define([
-    'application',
-    'backbone',
-    'hbs!apps/default/templates/start',
-    'hbs!apps/default/templates/dialog',
-    'hbs!apps/default/templates/hello'
-], function (App, Backbone, startTpl, dialogTpl, helloTpl) {
-    var views = { };
+var App = require('../../application'),
+    Marionette = require('marionette'),
+    startTpl = require('./templates/start.hbs'),
+    dialogTpl = require('./templates/dialog.hbs'),
+    helloTpl = require('./templates/hello.hbs');
 
-    views.Start = Backbone.Marionette.ItemView.extend({
-        template: startTpl,
-        triggers: {
-            'click .open-dialog': 'dialog:show'
-        }
-    });
+var views = { };
 
-    views.Hello = Backbone.Marionette.ItemView.extend({
-        template: helloTpl
-    });
-
-    views.Dialog = Backbone.Marionette.ItemView.extend({
-        template: dialogTpl,
-        triggers: {
-            'click .dialog-close': 'dialog:close'
-        }
-    });
-
-    return views;
+views.Start = Marionette.ItemView.extend({
+    template: startTpl,
+    triggers: {
+        'click .open-dialog': 'dialog:show'
+    }
 });
+
+views.Hello = Marionette.ItemView.extend({
+    template: helloTpl
+});
+
+views.Dialog = Marionette.ItemView.extend({
+    template: dialogTpl,
+    triggers: {
+        'click .dialog-close': 'dialog:close'
+    }
+});
+
+module.exports = views;

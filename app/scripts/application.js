@@ -10,7 +10,7 @@ var mainTmpl = require('./templates/main.hbs');
 
 'use strict';
 // set log level - fallback: SILENT (5)
-log.setLevel(1); //
+log.setLevel(1);
 
 var App = new Marionette.Application();
 
@@ -58,13 +58,15 @@ App.addInitializer(function () {
 
 var initializeRouter = function () {
     Backbone.history.start({ pushState: false });
-
 };
 
 App.on('initialize:after', function () {
     if (Backbone.history) {
-        s//require(['apps/default/DefaultApp', 'apps/demo/DemoApp', 'apps/masterdetail/MasterDetailApp'], function () {
+        //require(['apps/default/DefaultApp', 'apps/demo/DemoApp', 'apps/masterdetail/MasterDetailApp'], function () {
         initializeRouter();
+
+        // load apps
+        require('./apps/default/DefaultApp');
 
         if (App.getCurrentRoute() === '') {
             App.trigger('default:start');
