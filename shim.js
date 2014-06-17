@@ -1,4 +1,5 @@
 module.exports = {
+    /*
     lodash: {
         exports: '_'
     },
@@ -17,4 +18,5 @@ module.exports = {
             'backbone': 'Backbone'
         }
     }
+    */
 };

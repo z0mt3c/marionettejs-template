@@ -3,8 +3,10 @@
  */
 
 var $ = require('jquery');
+var Backbone = require('backbone');
+Backbone.$ = $;
+var Marionette = require('backbone.marionette');
 var log = require('loglevel');
-var Marionette = require('marionette');
 var dialogRegion = require('./helper/dialogRegion');
 var mainTmpl = require('./templates/main.hbs');
 
@@ -65,13 +67,11 @@ App.on('initialize:after', function () {
         //require(['apps/default/DefaultApp', 'apps/demo/DemoApp', 'apps/masterdetail/MasterDetailApp'], function () {
         initializeRouter();
 
-        // load apps
         require('./apps/default/DefaultApp');
 
         if (App.getCurrentRoute() === '') {
             App.trigger('default:start');
         }
-        //});
     }
 
     $('.nav a').on('click', function () {

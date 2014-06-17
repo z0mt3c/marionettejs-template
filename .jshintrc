@@ -20,7 +20,6 @@
     "smarttabs": true,
     "globals": {
         "$": false,
-        "_": false,
         "define": false,
         "alert": false,
         "describe": false,

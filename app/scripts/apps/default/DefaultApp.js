@@ -57,4 +57,4 @@ App.module('Routers.DefaultApp', function (DefaultAppRouter, App, Backbone) {
     });
 });
 
-module.exports = App.Routers.DefaultApp;
+module.exports = App.DefaultApp;

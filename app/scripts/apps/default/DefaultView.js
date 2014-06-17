@@ -1,27 +1,20 @@
-var App = require('../../application'),
-    Marionette = require('marionette'),
-    startTpl = require('./templates/start.hbs'),
-    dialogTpl = require('./templates/dialog.hbs'),
-    helloTpl = require('./templates/hello.hbs');
-
-var views = { };
+var Marionette = require('backbone.marionette');
+var views = module.exports = { };
 
 views.Start = Marionette.ItemView.extend({
-    template: startTpl,
+    template: require('./templates/start.hbs'),
     triggers: {
         'click .open-dialog': 'dialog:show'
     }
 });
 
 views.Hello = Marionette.ItemView.extend({
-    template: helloTpl
+    template: require('./templates/hello.hbs')
 });
 
 views.Dialog = Marionette.ItemView.extend({
-    template: dialogTpl,
+    template: require('./templates/dialog.hbs'),
     triggers: {
         'click .dialog-close': 'dialog:close'
     }
 });
-
-module.exports = views;
