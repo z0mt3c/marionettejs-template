@@ -1,7 +1,7 @@
 var gulp = require('gulp');
-var browserify = require('gulp-browserify');
+var browserify = require('browserify');
+var watchify = require('watchify');
 var less = require('gulp-less');
-var rename = require('gulp-rename');
 var jshint = require('gulp-jshint');
 var clean = require('gulp-clean');
 var imagemin = require('gulp-imagemin');
@@ -10,6 +10,9 @@ var processhtml = require('gulp-processhtml');
 var nodemon = require('gulp-nodemon')
 var path = require('path');
 var livereload = require('gulp-livereload');
+var minifyCSS = require('gulp-minify-css');
+var uglify = require('gulp-uglify');
+var source = require('vinyl-source-stream');
 
 var paths = {
     app: path.join(__dirname, 'app'),
@@ -23,8 +26,15 @@ gulp.task('clean', function () {
 });
 
 gulp.task('copy', function () {
-    var files = [ paths.app + '/*.html', paths.app + '/*.ico', paths.app + '/*.txt', paths.app + '/.htaccess', paths.app + '/styles/fonts/*', paths.app + '/bower_components/modernizr/modernizr.js' ];
+    var files = [ paths.app + '/*.html', paths.app + '/*.ico', paths.app + '/*.txt', paths.app + '/.htaccess', paths.app + '/styles/fonts/*' ];
     return gulp.src(files, { base: paths.app })
+        .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('vendor', function () {
+    var files = [ paths.app + '/bower_components/modernizr/modernizr.js' ];
+    return gulp.src(files, { base: paths.app })
+        .pipe(uglify())
         .pipe(gulp.dest(paths.dist));
 });
 
@@ -67,6 +77,7 @@ gulp.task('less', function () {
             paths: [ path.join(paths.app, 'bower_components') ]
             // sourceMap: true
         }))
+        .pipe(minifyCSS({keepBreaks: true}))
         .pipe(gulp.dest(paths.dist + '/styles'));
 });
 
@@ -80,7 +91,7 @@ gulp.task('server', function () {
     return nodemon({
         script: 'standalone-server/server.js',
         ext: 'js',
-        ignore: ['app/**', 'node_modules/**', 'gulpfile.js'],
+        ignore: ['app/**', 'dist/**', 'node_modules/**', 'gulpfile.js'],
         env: {
             'NODE_ENV': 'production'
         }
@@ -92,35 +103,60 @@ gulp.task('server', function () {
 });
 
 gulp.task('browserify', function () {
-    return gulp.src(paths.app + '/scripts/main.js')
-        .pipe(browserify({}))
-        .pipe(rename('main.js'))
+    var bundleMethod = global.isWatching ? watchify : browserify;
+    var bundler = bundleMethod({
+        entries: [paths.app + '/scripts/main.js'],
+        extensions: ['.coffee', '.hbs']
+    });
+
+    var bundle = function () {
+        return bundler
+            // Enable source maps!
+            .bundle({debug: true})
+            .pipe(source('main.js'))
+            .pipe(gulp.dest(paths.dist + '/scripts'));
+    };
+
+    if (global.isWatching) {
+        bundler.on('update', bundle);
+    }
+
+    return bundle();
+});
+
+
+gulp.task('uglify', ['browserify', 'copy'], function () {
+    gulp.src(paths.dist + '/scripts/*.js')
+        .pipe(uglify())
         .pipe(gulp.dest(paths.dist + '/scripts'))
 });
 
-
-var source = require('vinyl-source-stream')
-var watchify = require('watchify')
-
-gulp.task('watch', function () {
-    gulp.watch(paths.app + '/styles/**/*.less', ['less']);
-    gulp.watch(paths.app + '/images/**/*', ['imagemin']);
-
+gulp.task('livereload', function () {
     var server = livereload();
-    gulp.watch(paths.dist + '/**').on('change', function (file) {
-        server.changed(file.path);
-    });
 
-    var bundler = watchify(paths.app + '/scripts/main.js');
-    var rebundle = function () {
-        return bundler.bundle()
-            .pipe(source('main.js'))
-            .pipe(gulp.dest(paths.dist + '/scripts'))
+    var changed = function (file) {
+        server.changed(file.path);
     };
 
-    bundler.on('update', rebundle)
-    return rebundle()
+    gulp.watch(paths.dist + '/**').on('change', changed);
 });
 
+gulp.task('setWatch', function () {
+    global.isWatching = true;
+});
 
-gulp.task('default', ['lint', 'lint-server', 'watch', 'less', 'copy', 'imagemin', 'browserify', 'server']);
+gulp.task('watch', function () {
+    global.isWatching = true;
+    gulp.watch(paths.app + '/styles/**/*.less', ['less']);
+    gulp.watch(paths.app + '/images/**/*', ['imagemin']);
+});
+
+gulp.task('build-dev', ['lint', 'lint-server', 'less', 'browserify', 'copy', 'imagemin', 'vendor']);
+gulp.task('build', ['build-dev', 'uglify', 'processhtml']);
+
+gulp.task('development', ['setWatch', 'build-dev', 'server', 'watch', 'livereload']);
+gulp.task('production-watch', ['setWatch', 'build', 'server', 'watch']);
+gulp.task('production', ['build', 'server', 'watch']);
+
+gulp.task('default', ['development']);
+

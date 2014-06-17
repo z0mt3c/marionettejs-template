@@ -1,6 +1,6 @@
-var Handlebars = require("hbsfy/runtime");
+var Handlebars = require('hbsfy/runtime');
 
-Handlebars.registerHelper("eachProperty", function (context, options) {
+Handlebars.registerHelper('eachProperty', function (context, options) {
     var ret = '';
     var i = 0;
     for (var prop in context) {

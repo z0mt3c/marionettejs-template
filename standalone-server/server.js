@@ -42,9 +42,9 @@ server.route({
 });
 
 // require web plugin
-server.pack.require('../', {
+server.pack.register({ plugin: require('../'), options: {
     development: process.env.NODE_ENV === 'development'
-}, function (err) {
+}}, function (err) {
     if (err) {
         logger.error('Error during web-plugin load', err);
     }
