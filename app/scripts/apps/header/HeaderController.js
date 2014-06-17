@@ -30,7 +30,7 @@ module.exports = {
         var headerToSelect = links.find(function (header) {
             return header.get('url') === headerUrl;
         });
-        //headerToSelect.select();
+        headerToSelect.select();
         links.trigger('reset');
     }
 };

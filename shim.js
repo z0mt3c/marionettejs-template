@@ -1,33 +1,11 @@
 module.exports = {
-    /*
-     lodash: {
-     exports: '_'
-     },
-     'backbone': {
-     exports: 'Backbone',
-     depends: {
-     lodash: '_',
-     'jquery': 'jQuery'
-     }
-     },
-     'marionette': {
-     exports: 'Marionette',
-     depends: {
-     lodash: '_',
-     'jquery': 'jQuery',
-     'backbone': 'Backbone'
-     }
-     }
-     */
-
     'backbone.picky': {
+        exports: 'Backbone.Picky',
         depends: {
             'lodash': '_',
             'backbone': 'Backbone'
-        },
-        exports: 'Backbone.Picky'
+        }
     },
-
 
     'bootstrap.affix': {
         depends: { 'jquery': 'jQuery' }

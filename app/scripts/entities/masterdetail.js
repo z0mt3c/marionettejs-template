@@ -10,6 +10,8 @@ module.exports = App.module('Entities', function (Entities, App, Backbone) {
         initialize: function () {
             var selectable = new Picky.Selectable(this);
             _.extend(this, selectable);
+            this.select = selectable.select;
+            this.deselect = selectable.deselect;
         }
     });
 
@@ -20,6 +22,8 @@ module.exports = App.module('Entities', function (Entities, App, Backbone) {
         initialize: function () {
             var singleSelect = new Picky.SingleSelect(this);
             _.extend(this, singleSelect);
+            this.select = singleSelect.select;
+            this.deselect = singleSelect.deselect;
         }
     });
 

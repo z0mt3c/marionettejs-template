@@ -1,12 +1,15 @@
 var App = require('application');
+var Backbone = require('backbone');
 var Picky = require('backbone.picky');
 var _ = require('lodash');
 
-App.module('Entities', function (Entities, App, Backbone) {
+module.exports = App.module('Entities', function (Entities, App, Backbone) {
     Entities.Header = Backbone.Model.extend({
         initialize: function () {
             var selectable = new Picky.Selectable(this);
-            _.extend(this, selectable);
+            _.assign(this, selectable);
+            this.select = selectable.select;
+            this.deselect = selectable.deselect;
         }
     });
 
@@ -15,7 +18,9 @@ App.module('Entities', function (Entities, App, Backbone) {
 
         initialize: function () {
             var singleSelect = new Picky.SingleSelect(this);
-            _.extend(this, singleSelect);
+            _.assign(this, singleSelect);
+            this.select = singleSelect.select;
+            this.deselect = singleSelect.deselect;
         }
     });
 
@@ -41,5 +46,3 @@ App.module('Entities', function (Entities, App, Backbone) {
         return API.getHeaders();
     });
 });
-
-return;
