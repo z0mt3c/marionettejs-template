@@ -1,19 +1,18 @@
-define(['application', 'apps/header/HeaderController'], function (App, HeaderController) {
-    App.module('HeaderApp', function (HeaderApp) {
-        var API = {
-            listHeader: function () {
-                HeaderController.listHeader();
-            }
-        };
+var App = require('application');
+var HeaderController = require('./HeaderController');
 
-        App.commands.setHandler('set:active:header', function (name) {
-            HeaderController.setActiveHeader(name);
-        });
+module.exports = App.module('HeaderApp', function (HeaderApp) {
+    var API = {
+        listHeader: function () {
+            HeaderController.listHeader();
+        }
+    };
 
-        HeaderApp.on('start', function () {
-            API.listHeader();
-        });
+    App.commands.setHandler('set:active:header', function (name) {
+        HeaderController.setActiveHeader(name);
     });
 
-    return App.HeaderApp;
+    HeaderApp.on('start', function () {
+        API.listHeader();
+    });
 });

@@ -1,5 +1,5 @@
 var log = require('loglevel');
-var App = require('../../application');
+var App = require('application');
 
 App.module('DefaultApp', function (DefaultApp) {
     DefaultApp.startWithParent = false;

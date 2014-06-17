@@ -1,4 +1,7 @@
 var Marionette = require('backbone.marionette');
+
+require('bootstrap.modal');
+
 var region = Marionette.Region.extend({
     el: '#dialog',
 

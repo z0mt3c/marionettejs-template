@@ -9,6 +9,7 @@ var pngcrush = require('imagemin-pngcrush');
 var processhtml = require('gulp-processhtml');
 var nodemon = require('gulp-nodemon')
 var path = require('path');
+var livereload = require('gulp-livereload');
 
 var paths = {
     app: path.join(__dirname, 'app'),
@@ -92,9 +93,7 @@ gulp.task('server', function () {
 
 gulp.task('browserify', function () {
     return gulp.src(paths.app + '/scripts/main.js')
-        .pipe(browserify({
-            transform: ['hbsfy']
-        }))
+        .pipe(browserify({}))
         .pipe(rename('main.js'))
         .pipe(gulp.dest(paths.dist + '/scripts'))
 });
@@ -107,17 +106,21 @@ gulp.task('watch', function () {
     gulp.watch(paths.app + '/styles/**/*.less', ['less']);
     gulp.watch(paths.app + '/images/**/*', ['imagemin']);
 
+    var server = livereload();
+    gulp.watch(paths.dist + '/**').on('change', function (file) {
+        server.changed(file.path);
+    });
+
     var bundler = watchify(paths.app + '/scripts/main.js');
-    var rebundle = function() {
+    var rebundle = function () {
         return bundler.bundle()
             .pipe(source('main.js'))
             .pipe(gulp.dest(paths.dist + '/scripts'))
     };
 
-    bundler.transform('hbsfy');
     bundler.on('update', rebundle)
     return rebundle()
 });
 
 
-gulp.task('default', ['lint', 'lint-server', 'watch', 'less', 'copy', 'imagemin', 'browserify', 'processhtml', 'server']);
+gulp.task('default', ['lint', 'lint-server', 'watch', 'less', 'copy', 'imagemin', 'browserify', 'server']);

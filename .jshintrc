@@ -19,8 +19,6 @@
     "trailing": true,
     "smarttabs": true,
     "globals": {
-        "$": false,
-        "define": false,
         "alert": false,
         "describe": false,
         "it": false

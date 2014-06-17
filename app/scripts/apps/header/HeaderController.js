@@ -1,35 +1,36 @@
-define(['application', 'apps/header/HeaderView', 'underscore'], function (App, View, _) {
-    return {
-        listHeader: function () {
-            require(['entities/header'], function () {
-                var links = App.request('header:entities');
-                var headers = new View.Headers({collection: links});
+var App = require('application');
+var _ = require('lodash');
+var View = require('./HeaderView');
+require('../../entities/header');
 
-                headers.on('brand:clicked', function () {
-                    App.trigger('default:start');
-                });
+module.exports = {
+    listHeader: function () {
+        var links = App.request('header:entities');
+        var headers = new View.Headers({collection: links});
 
-                headers.on('itemview:navigate', function (childView, model) {
-                    var trigger = model.get('navigationTrigger');
+        headers.on('brand:clicked', function () {
+            App.trigger('default:start');
+        });
 
-                    if (!_.isArray(trigger)) {
-                        trigger = [trigger];
-                    }
+        headers.on('itemview:navigate', function (childView, model) {
+            var trigger = model.get('navigationTrigger');
 
-                    App.trigger.apply(App, trigger);
-                });
+            if (!_.isArray(trigger)) {
+                trigger = [trigger];
+            }
 
-                App.headerRegion.show(headers);
-            });
-        },
+            App.trigger.apply(App, trigger);
+        });
 
-        setActiveHeader: function (headerUrl) {
-            var links = App.request('header:entities');
-            var headerToSelect = links.find(function (header) {
-                return header.get('url') === headerUrl;
-            });
-            headerToSelect.select();
-            links.trigger('reset');
-        }
-    };
-});
+        App.headerRegion.show(headers);
+    },
+
+    setActiveHeader: function (headerUrl) {
+        var links = App.request('header:entities');
+        var headerToSelect = links.find(function (header) {
+            return header.get('url') === headerUrl;
+        });
+        //headerToSelect.select();
+        links.trigger('reset');
+    }
+};

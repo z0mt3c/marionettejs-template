@@ -1,6 +1,4 @@
-/*
- 'hbs!templates/main'
- */
+'use strict';
 
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -10,7 +8,6 @@ var log = require('loglevel');
 var dialogRegion = require('./helper/dialogRegion');
 var mainTmpl = require('./templates/main.hbs');
 
-'use strict';
 // set log level - fallback: SILENT (5)
 log.setLevel(1);
 
@@ -66,8 +63,6 @@ App.on('initialize:after', function () {
     if (Backbone.history) {
         //require(['apps/default/DefaultApp', 'apps/demo/DemoApp', 'apps/masterdetail/MasterDetailApp'], function () {
         initializeRouter();
-
-        require('./apps/default/DefaultApp');
 
         if (App.getCurrentRoute() === '') {
             App.trigger('default:start');

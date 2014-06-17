@@ -1,24 +1,25 @@
-define(['application', 'apps/notification/NotificationController'], function (App, NotificationController) {
-    App.module('NotificationApp', function (NotificationApp) {
-        var API = {
-            showNotifications: function () {
-                NotificationController.showNotifications();
-            },
-            addNotification: function (data) {
-                NotificationController.addNotification(data);
-            }
-        };
+var App = require('application');
+var log = require('loglevel');
+var application = require('application');
+var Controller = require('./NotificationController');
 
-        NotificationApp.on('start', function () {
-            API.showNotifications();
+module.exports = App.module('NotificationApp', function (NotificationApp) {
+    var API = {
+        showNotifications: function () {
+            Controller.showNotifications();
+        },
+        addNotification: function (data) {
+            Controller.addNotification(data);
+        }
+    };
 
-            App.on('notification:add', function (data) {
-                API.addNotification(data);
-            });
+    NotificationApp.on('start', function () {
+        API.showNotifications();
+
+        App.on('notification:add', function (data) {
+            API.addNotification(data);
         });
     });
-
-
-
-    return App.NotificationApp;
 });
+
+

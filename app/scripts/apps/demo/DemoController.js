@@ -1,9 +1,10 @@
-define(['application', 'apps/demo/DemoView'], function (App, View) {
-    return {
-        showDemo: function () {
-            var view = new View.Demo({});
-            App.mainRegion.show(view);
-        }
-    };
-});
+var App = require('application');
+var View = require('./DemoView');
+
+module.exports = {
+    showDemo: function () {
+        var view = new View.Demo({});
+        App.mainRegion.show(view);
+    }
+};
 
