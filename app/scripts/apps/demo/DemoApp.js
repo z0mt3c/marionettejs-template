@@ -1,6 +1,5 @@
 var App = require('application');
 var log = require('loglevel');
-var application = require('application');
 var Controller = require('./DemoController');
 
 module.exports = App.module('DemoApp', function (DemoApp) {

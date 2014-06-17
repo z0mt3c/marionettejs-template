@@ -1,5 +1,4 @@
 var App = require('application');
-var Backbone = require('backbone');
 var Picky = require('backbone.picky');
 var _ = require('lodash');
 

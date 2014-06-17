@@ -1,9 +1,8 @@
 var App = require('application');
 var log = require('loglevel');
-var application = require('application');
 var Controller = require('./MasterDetailController');
 
-var module = App.module('MasterDetailApp', function (MasterDetailApp) {
+module.exports = App.module('MasterDetailApp', function (MasterDetailApp) {
     MasterDetailApp.startWithParent = false;
 
     MasterDetailApp.onStart = function () {
@@ -57,5 +56,3 @@ App.module('Routers.MasterDetailApp', function (MasterDetailAppRouter, App, Back
         });
     });
 });
-
-module.exports = module;

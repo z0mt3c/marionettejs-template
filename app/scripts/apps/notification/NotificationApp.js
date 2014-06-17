@@ -1,6 +1,4 @@
 var App = require('application');
-var log = require('loglevel');
-var application = require('application');
 var Controller = require('./NotificationController');
 
 module.exports = App.module('NotificationApp', function (NotificationApp) {

@@ -53,7 +53,7 @@ function getLayout(id) {
     return defer.promise();
 }
 
-var controller = module.exports = {
+module.exports = {
     showDetail: function (id) {
         var loadLayout = getLayout(id);
         var fetchEntity = App.request('masterdetail:entity', id);
