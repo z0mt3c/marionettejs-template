@@ -1,20 +1,27 @@
 var gulp = require('gulp');
+var path = require('path');
+
+// Java-Script
 var browserify = require('browserify');
 var watchify = require('watchify');
-var less = require('gulp-less');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
-var clean = require('gulp-clean');
-var imagemin = require('gulp-imagemin');
-var pngcrush = require('imagemin-pngcrush');
-var processhtml = require('gulp-processhtml');
-var nodemon = require('gulp-nodemon')
-var path = require('path');
-var livereload = require('gulp-livereload');
-var minifyCSS = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var source = require('vinyl-source-stream');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
 
+// Html, Images and Styles
+var imagemin = require('gulp-imagemin');
+var pngcrush = require('imagemin-pngcrush');
+var less = require('gulp-less');
+var minifyCSS = require('gulp-minify-css');
+var processhtml = require('gulp-processhtml');
+
+// Utils
+var clean = require('gulp-clean');
+var livereload = require('gulp-livereload');
+var nodemon = require('gulp-nodemon')
+
+// Configuration
 var paths = {
     app: path.join(__dirname, 'app'),
     dist: path.join(__dirname, 'dist'),
@@ -22,7 +29,7 @@ var paths = {
 };
 
 gulp.task('clean', function () {
-    return gulp.src([paths.dist, paths.tmp], {read: false})
+    return gulp.src([paths.dist, paths.tmp], { read: false })
         .pipe(clean());
 });
 
