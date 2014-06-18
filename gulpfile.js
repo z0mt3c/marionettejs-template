@@ -3,6 +3,7 @@ var browserify = require('browserify');
 var watchify = require('watchify');
 var less = require('gulp-less');
 var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
 var clean = require('gulp-clean');
 var imagemin = require('gulp-imagemin');
 var pngcrush = require('imagemin-pngcrush');
@@ -58,7 +59,8 @@ gulp.task('lint-server', function () {
 
     return gulp.src(jshintFiles)
         .pipe(jshint())
-        .pipe(jshint.reporter('default'));
+        .pipe(jshint.reporter(stylish || 'default'))
+        .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('lint', function () {
@@ -68,7 +70,8 @@ gulp.task('lint', function () {
 
     return gulp.src(jshintFiles)
         .pipe(jshint())
-        .pipe(jshint.reporter('default'));
+        .pipe(jshint.reporter(stylish || 'default'))
+        .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('less', function () {
