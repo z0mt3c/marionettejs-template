@@ -12,7 +12,7 @@ module.exports = {
             App.trigger('default:start');
         });
 
-        headers.on('itemview:navigate', function (childView, model) {
+        headers.on('childview:navigate', function (childView, model) {
             var trigger = model.get('navigationTrigger');
 
             if (!_.isArray(trigger)) {

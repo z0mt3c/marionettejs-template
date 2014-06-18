@@ -59,7 +59,7 @@ var initializeRouter = function () {
     Backbone.history.start({ pushState: false });
 };
 
-App.on('initialize:after', function () {
+App.on('start', function () {
     if (Backbone.history) {
         //require(['apps/default/DefaultApp', 'apps/demo/DemoApp', 'apps/masterdetail/MasterDetailApp'], function () {
         initializeRouter();

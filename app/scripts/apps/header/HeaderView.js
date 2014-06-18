@@ -26,8 +26,8 @@ views.Header = Marionette.ItemView.extend({
 views.Headers = Marionette.CompositeView.extend({
     template: require('./templates/list.hbs'),
     className: 'navbar navbar-default navbar-fixed-top',
-    itemView: views.Header,
-    itemViewContainer: 'ul',
+    childView: views.Header,
+    childViewContainer: 'ul',
 
     events: {
         'click a.brand': 'brandClicked'

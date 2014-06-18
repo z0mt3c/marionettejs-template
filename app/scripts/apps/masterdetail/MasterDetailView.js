@@ -1,7 +1,7 @@
 var Marionette = require('backbone.marionette');
 var views = module.exports = { };
 
-views.Layout = Marionette.Layout.extend({
+views.Layout = Marionette.LayoutView.extend({
     template: require('./templates/layout.hbs'),
     regions: {
         sideRegion: '#md-side',
@@ -48,6 +48,6 @@ views.CollectionItem = Marionette.ItemView.extend({
 
 views.Collection = Marionette.CompositeView.extend({
     template: require('./templates/list.hbs'),
-    itemView: views.CollectionItem,
-    itemViewContainer: 'div.list-group'
+    childView: views.CollectionItem,
+    childViewContainer: 'div.list-group'
 });

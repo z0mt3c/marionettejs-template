@@ -27,8 +27,8 @@ views.Notification = Marionette.ItemView.extend({
 views.Notifications = Marionette.CompositeView.extend({
     template: require('./templates/list.hbs'),
     className: 'notifications list-group',
-    itemView: views.Notification,
-    itemViewContainer: 'ul',
+    childView: views.Notification,
+    childViewContainer: 'ul',
     events: {
     }
 });

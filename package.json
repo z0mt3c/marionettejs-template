@@ -7,14 +7,14 @@
   "dependencies": {},
   "devDependencies": {
     "backbone": "^1.1.2",
-    "backbone.marionette": "^1.8.8",
+    "backbone.marionette": "^2.0.x",
     "browserify": "^4.1.10",
     "browserify-shim": "^3.5.0",
     "gulp": "^3.8.0",
     "gulp-clean": "^0.3.0",
     "gulp-imagemin": "^0.6.1",
     "gulp-jshint": "^1.6.3",
-    "gulp-less": "^1.2.3",
+    "gulp-less": "^1.2.3",d
     "gulp-livereload": "^2.1.0",
     "gulp-minify-css": "^0.3.4",
     "gulp-nodemon": "^1.0.4",

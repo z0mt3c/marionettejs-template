@@ -15,6 +15,6 @@ views.Hello = Marionette.ItemView.extend({
 views.Dialog = Marionette.ItemView.extend({
     template: require('./templates/dialog.hbs'),
     triggers: {
-        'click .dialog-close': 'dialog:close'
+        'click .dialog-close': 'dialog:destroy'
     }
 });
