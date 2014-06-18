@@ -138,7 +138,7 @@ gulp.task('browserify', function () {
 gulp.task('uglify', ['browserify', 'copy'], function () {
     gulp.src(paths.dist + '/scripts/*.js')
         .pipe(uglify())
-        .pipe(gulp.dest(paths.dist + '/scripts'))
+        .pipe(gulp.dest(paths.dist + '/scripts'));
 });
 
 gulp.task('livereload', function () {
