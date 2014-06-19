@@ -19,7 +19,7 @@ var processhtml = require('gulp-processhtml');
 // Utils
 var clean = require('gulp-clean');
 var livereload = require('gulp-livereload');
-var nodemon = require('gulp-nodemon')
+var nodemon = require('gulp-nodemon');
 
 // Configuration
 var paths = {
@@ -27,6 +27,8 @@ var paths = {
     dist: path.join(__dirname, 'dist'),
     tmp: path.join(__dirname, '.tmp')
 };
+
+var DEBUG = (process.env.DEBUG === 'true');
 
 gulp.task('clean', function () {
     return gulp.src([paths.dist, paths.tmp], { read: false })
@@ -58,18 +60,6 @@ gulp.task('imagemin', function () {
         .pipe(gulp.dest(paths.dist + '/images'));
 });
 
-gulp.task('lint-server', function () {
-    var jshintFiles = [
-        './standalone-server/*.js',
-        './plugin/*.js',
-    ];
-
-    return gulp.src(jshintFiles)
-        .pipe(jshint())
-        .pipe(jshint.reporter(stylish || 'default'))
-        .pipe(jshint.reporter('fail'));
-});
-
 gulp.task('lint', function () {
     var jshintFiles = [
             paths.app + '/scripts/**/*.js'
@@ -81,13 +71,30 @@ gulp.task('lint', function () {
         .pipe(jshint.reporter('fail'));
 });
 
+gulp.task('lint-server', function () {
+    var jshintFiles = [
+        './standalone-server/*.js',
+        './plugin/*.js'
+    ];
+
+    return gulp.src(jshintFiles)
+        .pipe(jshint())
+        .pipe(jshint.reporter(stylish || 'default'))
+        .pipe(jshint.reporter('fail'));
+});
+
 gulp.task('less', function () {
-    return gulp.src(paths.app + '/styles/main.less')
+    var pipe = gulp.src(paths.app + '/styles/main.less')
         .pipe(less({
-            paths: [ path.join(paths.app, 'bower_components') ]
-            // sourceMap: true
-        }))
-        .pipe(minifyCSS({keepBreaks: true}))
+            paths: [ path.join(paths.app, 'bower_components') ],
+            sourceMap: DEBUG
+        }));
+
+    if (!DEBUG) {
+        pipe = pipe.pipe(minifyCSS({keepBreaks: true}));
+    }
+
+    return pipe
         .pipe(gulp.dest(paths.dist + '/styles'));
 });
 
@@ -108,7 +115,7 @@ gulp.task('server', function () {
     })
         .on('change', ['lint-server'])
         .on('restart', function () {
-            console.log('restarted!')
+            console.log('restarted!');
         });
 });
 
@@ -116,13 +123,13 @@ gulp.task('browserify', function () {
     var bundleMethod = global.isWatching ? watchify : browserify;
     var bundler = bundleMethod({
         entries: [paths.app + '/scripts/main.js'],
-        extensions: ['.coffee', '.hbs']
+        extensions: ['.hbs']
     });
 
     var bundle = function () {
         return bundler
             // Enable source maps!
-            .bundle({debug: true})
+            .bundle({debug: DEBUG})
             .pipe(source('main.js'))
             .pipe(gulp.dest(paths.dist + '/scripts'));
     };
@@ -136,12 +143,14 @@ gulp.task('browserify', function () {
 
 
 gulp.task('uglify', ['browserify', 'copy'], function () {
-    gulp.src(paths.dist + '/scripts/*.js')
-        .pipe(uglify())
-        .pipe(gulp.dest(paths.dist + '/scripts'));
+    if (!DEBUG) {
+        gulp.src(paths.dist + '/scripts/*.js')
+            .pipe(uglify())
+            .pipe(gulp.dest(paths.dist + '/scripts'));
+    }
 });
 
-gulp.task('livereload', function () {
+gulp.task('livereload', ['doWatch'], function () {
     var server = livereload();
 
     var changed = function (file) {
@@ -155,7 +164,7 @@ gulp.task('setWatch', function () {
     global.isWatching = true;
 });
 
-gulp.task('watch', function () {
+gulp.task('doWatch', ['copy'], function () {
     global.isWatching = true;
     gulp.watch(paths.app + '/styles/**/*.less', ['less']);
     gulp.watch(paths.app + '/images/**/*', ['imagemin']);
@@ -164,9 +173,10 @@ gulp.task('watch', function () {
 gulp.task('build-dev', ['lint', 'lint-server', 'less', 'browserify', 'copy', 'imagemin', 'vendor']);
 gulp.task('build', ['build-dev', 'uglify', 'processhtml']);
 
-gulp.task('development', ['setWatch', 'build-dev', 'server', 'watch', 'livereload']);
-gulp.task('production-watch', ['setWatch', 'build', 'server', 'watch']);
-gulp.task('production', ['build', 'server', 'watch']);
+gulp.task('watch', ['setWatch', 'build-dev', 'server', 'doWatch', 'livereload']);
 
-gulp.task('default', ['development']);
+gulp.task('production', ['build', 'server', 'watch']);
+gulp.task('production-watch', ['setWatch', 'build', 'server', 'doWatch']);
+
+gulp.task('default', ['watch']);
 
