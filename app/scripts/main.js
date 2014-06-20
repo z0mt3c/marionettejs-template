@@ -1,10 +1,3 @@
-/*
- 'backbone',
- 'backbone.marionette',
- 'application',
- 'apps/header/HeaderApp',
- 'apps/notification/NotificationApp'
- */
 var App = require('application');
 
 require('./apps/header/HeaderApp');
