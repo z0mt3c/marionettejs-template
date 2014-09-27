@@ -17,7 +17,7 @@ var minifyCSS = require('gulp-minify-css');
 var processhtml = require('gulp-processhtml');
 
 // Utils
-var clean = require('gulp-clean');
+var rimraf = require('gulp-rimraf');
 var livereload = require('gulp-livereload');
 var nodemon = require('gulp-nodemon');
 
@@ -32,7 +32,7 @@ var DEBUG = (process.env.DEBUG === 'true');
 
 gulp.task('clean', function () {
     return gulp.src([paths.dist, paths.tmp], { read: false })
-        .pipe(clean());
+        .pipe(rimraf());
 });
 
 gulp.task('copy', function () {
@@ -120,23 +120,37 @@ gulp.task('server', function () {
 });
 
 gulp.task('browserify', function () {
-    var bundleMethod = global.isWatching ? watchify : browserify;
-    var bundler = bundleMethod({
-        entries: [paths.app + '/scripts/main.js'],
-        extensions: ['.hbs']
-    });
+	var bundler = browserify({
+		// Required watchify args
+		cache: {}, packageCache: {}, fullPaths: true,
+		// Specify the entry point of your app
+		entries: [paths.app + '/scripts/main.js'],
+		// Add file extentions to make optional in your requires
+		extensions: ['.hbs'],
+		// Enable source maps!
+		debug: DEBUG
+	});
 
     var bundle = function () {
-        return bundler
-            // Enable source maps!
-            .bundle({debug: DEBUG})
+		return bundler
+			.bundle()
+			// Report compile errors
+			//.on('error', handleErrors)
+			// Use vinyl-source-stream to make the
+			// stream gulp compatible. Specifiy the
+			// desired output filename here.
             .pipe(source('main.js'))
+			// Specify the output destination
             .pipe(gulp.dest(paths.dist + '/scripts'));
     };
-
-    if (global.isWatching) {
-        bundler.on('update', bundle);
-    }
+/*
+	if(global.isWatching) {
+		// Wrap with watchify and rebundle on changes
+		bundler = watchify(bundler);
+		// Rebundle on update
+		bundler.on('update', bundle);
+	}
+	*/
 
     return bundle();
 });
