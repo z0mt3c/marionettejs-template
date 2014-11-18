@@ -20,12 +20,43 @@ var processhtml = require('gulp-processhtml');
 var rimraf = require('gulp-rimraf');
 var livereload = require('gulp-livereload');
 var nodemon = require('gulp-nodemon');
+var notify = require('gulp-notify');
+var gutil = require('gulp-util');
+var prettyHrtime = require('pretty-hrtime');
 
 // Configuration
 var paths = {
     app: path.join(__dirname, 'app'),
     dist: path.join(__dirname, 'dist'),
     tmp: path.join(__dirname, '.tmp')
+};
+
+// Helper
+var startTime;
+var helper = {
+	startBundleLogging: function(filepath) {
+		startTime = process.hrtime();
+		gutil.log('Bundling', gutil.colors.green(filepath) + '...');
+	},
+	endBundleLogging: function(filepath) {
+		var taskTime = process.hrtime(startTime);
+		var prettyTime = prettyHrtime(taskTime);
+		gutil.log('Bundled', gutil.colors.green(filepath), 'in', gutil.colors.magenta(prettyTime));
+	},
+	handleErrors: function(title) {
+		return function() {
+			var args = Array.prototype.slice.call(arguments);
+
+			// Send error to notification center with gulp-notify
+			notify.onError({
+				title: title,
+				message: '<%= error.message %>'
+			}).apply(this, args);
+
+			// Keep gulp from hanging on this task
+			this.emit('end');
+		}
+	}
 };
 
 var DEBUG = (process.env.DEBUG === 'true');
@@ -68,7 +99,8 @@ gulp.task('lint', function () {
     return gulp.src(jshintFiles)
         .pipe(jshint())
         .pipe(jshint.reporter(stylish || 'default'))
-        .pipe(jshint.reporter('fail'));
+        .pipe(jshint.reporter('fail'))
+		.on('error', helper.handleErrors('Lint failed (client)'));
 });
 
 gulp.task('lint-server', function () {
@@ -80,7 +112,8 @@ gulp.task('lint-server', function () {
     return gulp.src(jshintFiles)
         .pipe(jshint())
         .pipe(jshint.reporter(stylish || 'default'))
-        .pipe(jshint.reporter('fail'));
+        .pipe(jshint.reporter('fail'))
+		.on('error', helper.handleErrors('Lint failed (server)'));
 });
 
 gulp.task('less', function () {
@@ -88,7 +121,7 @@ gulp.task('less', function () {
         .pipe(less({
             paths: [ path.join(paths.app, 'bower_components') ],
             sourceMap: DEBUG
-        }));
+        })).on('error', helper.handleErrors('LESS failed'));
 
     if (!DEBUG) {
         pipe = pipe.pipe(minifyCSS({keepBreaks: true}));
@@ -131,28 +164,34 @@ gulp.task('browserify', function () {
 		debug: DEBUG
 	});
 
-    var bundle = function () {
+	var reportFinished = function() {
+		helper.endBundleLogging('main.js')
+	};
+
+	var bundle = function () {
+		helper.startBundleLogging('main.js');
+
 		return bundler
 			.bundle()
 			// Report compile errors
-			//.on('error', handleErrors)
+			.on('error', helper.handleErrors('Browserify failed'))
 			// Use vinyl-source-stream to make the
 			// stream gulp compatible. Specifiy the
 			// desired output filename here.
-            .pipe(source('main.js'))
+			.pipe(source('main.js'))
 			// Specify the output destination
-            .pipe(gulp.dest(paths.dist + '/scripts'));
-    };
-/*
+			.pipe(gulp.dest(paths.dist + '/scripts'))
+			.on('end', reportFinished);
+	};
+
 	if(global.isWatching) {
 		// Wrap with watchify and rebundle on changes
 		bundler = watchify(bundler);
 		// Rebundle on update
 		bundler.on('update', bundle);
 	}
-	*/
 
-    return bundle();
+	return bundle();
 });
 
 
