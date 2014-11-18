@@ -18,17 +18,18 @@ var processhtml = require('gulp-processhtml');
 
 // Utils
 var rimraf = require('gulp-rimraf');
-var livereload = require('gulp-livereload');
 var nodemon = require('gulp-nodemon');
 var notify = require('gulp-notify');
 var gutil = require('gulp-util');
 var prettyHrtime = require('pretty-hrtime');
+var browserSync = require('browser-sync');
+var reload = browserSync.reload;
 
 // Configuration
 var paths = {
-    app: path.join(__dirname, 'app'),
-    dist: path.join(__dirname, 'dist'),
-    tmp: path.join(__dirname, '.tmp')
+	app: path.join(__dirname, 'app'),
+	dist: path.join(__dirname, 'dist'),
+	tmp: path.join(__dirname, '.tmp')
 };
 
 // Helper
@@ -61,98 +62,99 @@ var helper = {
 
 var DEBUG = (process.env.DEBUG === 'true');
 
-gulp.task('clean', function () {
-    return gulp.src([paths.dist, paths.tmp], { read: false })
-        .pipe(rimraf());
+gulp.task('clean', function() {
+	return gulp.src([paths.dist, paths.tmp], {read: false})
+		.pipe(rimraf());
 });
 
-gulp.task('copy', function () {
-    var files = [ paths.app + '/*.html', paths.app + '/*.ico', paths.app + '/*.txt', paths.app + '/.htaccess', paths.app + '/styles/fonts/*' ];
-    return gulp.src(files, { base: paths.app })
-        .pipe(gulp.dest(paths.dist));
+gulp.task('copy', function() {
+	var files = [paths.app + '/*.html', paths.app + '/*.ico', paths.app + '/*.txt', paths.app + '/.htaccess', paths.app + '/styles/fonts/*'];
+	return gulp.src(files, {base: paths.app})
+		.pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('vendor', function () {
-    var files = [ paths.app + '/bower_components/modernizr/modernizr.js' ];
-    return gulp.src(files, { base: paths.app })
-        .pipe(uglify())
-        .pipe(gulp.dest(paths.dist));
+gulp.task('vendor', function() {
+	var files = [paths.app + '/bower_components/modernizr/modernizr.js'];
+	return gulp.src(files, {base: paths.app})
+		.pipe(uglify())
+		.pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('imagemin', function () {
-    return gulp.src(paths.app + '/images/*')
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [
-                {removeViewBox: false}
-            ],
-            use: [pngcrush()]
-        }))
-        .pipe(gulp.dest(paths.dist + '/images'));
+gulp.task('imagemin', function() {
+	return gulp.src(paths.app + '/images/*')
+		.pipe(imagemin({
+			progressive: true,
+			svgoPlugins: [
+				{removeViewBox: false}
+			],
+			use: [pngcrush()]
+		}))
+		.pipe(gulp.dest(paths.dist + '/images'));
 });
 
-gulp.task('lint', function () {
-    var jshintFiles = [
-            paths.app + '/scripts/**/*.js'
-    ];
+gulp.task('lint', function() {
+	var jshintFiles = [
+		paths.app + '/scripts/**/*.js'
+	];
 
-    return gulp.src(jshintFiles)
-        .pipe(jshint())
-        .pipe(jshint.reporter(stylish || 'default'))
-        .pipe(jshint.reporter('fail'))
+	return gulp.src(jshintFiles)
+		.pipe(jshint())
+		.pipe(jshint.reporter(stylish || 'default'))
+		.pipe(jshint.reporter('fail'))
 		.on('error', helper.handleErrors('Lint failed (client)'));
 });
 
-gulp.task('lint-server', function () {
-    var jshintFiles = [
-        './standalone-server/*.js',
-        './plugin/*.js'
-    ];
+gulp.task('lint-server', function() {
+	var jshintFiles = [
+		'./standalone-server/*.js',
+		'./plugin/*.js'
+	];
 
-    return gulp.src(jshintFiles)
-        .pipe(jshint())
-        .pipe(jshint.reporter(stylish || 'default'))
-        .pipe(jshint.reporter('fail'))
+	return gulp.src(jshintFiles)
+		.pipe(jshint())
+		.pipe(jshint.reporter(stylish || 'default'))
+		.pipe(jshint.reporter('fail'))
 		.on('error', helper.handleErrors('Lint failed (server)'));
 });
 
-gulp.task('less', function () {
-    var pipe = gulp.src(paths.app + '/styles/main.less')
-        .pipe(less({
-            paths: [ path.join(paths.app, 'bower_components') ],
-            sourceMap: DEBUG
-        })).on('error', helper.handleErrors('LESS failed'));
+gulp.task('less', function() {
+	var pipe = gulp.src(paths.app + '/styles/main.less')
+		.pipe(less({
+			paths: [path.join(paths.app, 'bower_components')],
+			sourceMap: DEBUG
+		})).on('error', helper.handleErrors('LESS failed'));
 
-    if (!DEBUG) {
-        pipe = pipe.pipe(minifyCSS({keepBreaks: true}));
-    }
+	if (!DEBUG) {
+		pipe = pipe.pipe(minifyCSS({keepBreaks: true}));
+	}
 
-    return pipe
-        .pipe(gulp.dest(paths.dist + '/styles'));
+	return pipe
+		.pipe(gulp.dest(paths.dist + '/styles'))
+		.pipe(reload({stream:true}));
 });
 
-gulp.task('processhtml', ['copy'], function () {
-    return gulp.src(paths.dist + '/index.html')
-        .pipe(processhtml('index.html'))
-        .pipe(gulp.dest(paths.dist));
+gulp.task('processhtml', ['copy'], function() {
+	return gulp.src(paths.dist + '/index.html')
+		.pipe(processhtml('index.html'))
+		.pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('server', function () {
-    return nodemon({
-        script: 'standalone-server/server.js',
-        ext: 'js',
-        ignore: ['app/**', 'dist/**', 'node_modules/**', 'gulpfile.js'],
-        env: {
-            'NODE_ENV': 'production'
-        }
-    })
-        .on('change', ['lint-server'])
-        .on('restart', function () {
-            console.log('restarted!');
-        });
+gulp.task('server', function() {
+	return nodemon({
+		script: 'standalone-server/server.js',
+		ext: 'js',
+		ignore: ['app/**', 'dist/**', 'node_modules/**', 'gulpfile.js'],
+		env: {
+			'NODE_ENV': 'production'
+		}
+	})
+		.on('change', ['lint-server'])
+		.on('restart', function() {
+			console.log('restarted!');
+		});
 });
 
-gulp.task('browserify', function () {
+gulp.task('browserify', function() {
 	var bundler = browserify({
 		// Required watchify args
 		cache: {}, packageCache: {}, fullPaths: true,
@@ -168,7 +170,7 @@ gulp.task('browserify', function () {
 		helper.endBundleLogging('main.js')
 	};
 
-	var bundle = function () {
+	var bundle = function() {
 		helper.startBundleLogging('main.js');
 
 		return bundler
@@ -184,7 +186,7 @@ gulp.task('browserify', function () {
 			.on('end', reportFinished);
 	};
 
-	if(global.isWatching) {
+	if (global.isWatching) {
 		// Wrap with watchify and rebundle on changes
 		bundler = watchify(bundler);
 		// Rebundle on update
@@ -195,32 +197,31 @@ gulp.task('browserify', function () {
 });
 
 
-gulp.task('uglify', ['browserify', 'copy'], function () {
-    if (!DEBUG) {
-        gulp.src(paths.dist + '/scripts/*.js')
-            .pipe(uglify())
-            .pipe(gulp.dest(paths.dist + '/scripts'));
-    }
+gulp.task('uglify', ['browserify', 'copy'], function() {
+	if (!DEBUG) {
+		gulp.src(paths.dist + '/scripts/*.js')
+			.pipe(uglify())
+			.pipe(gulp.dest(paths.dist + '/scripts'));
+	}
 });
 
-gulp.task('livereload', ['doWatch'], function () {
-    var server = livereload();
+gulp.task('livereload', ['doWatch'], function() {
+	browserSync({
+		proxy: 'localhost:8000'
+	});
 
-    var changed = function (file) {
-        server.changed(file.path);
-    };
-
-    gulp.watch(paths.dist + '/**').on('change', changed);
+	gulp.watch(paths.dist + '/**/*.js', browserSync.reload);
 });
 
-gulp.task('setWatch', function () {
-    global.isWatching = true;
+
+gulp.task('setWatch', function() {
+	global.isWatching = true;
 });
 
-gulp.task('doWatch', ['copy'], function () {
-    global.isWatching = true;
-    gulp.watch(paths.app + '/styles/**/*.less', ['less']);
-    gulp.watch(paths.app + '/images/**/*', ['imagemin']);
+gulp.task('doWatch', ['copy'], function() {
+	global.isWatching = true;
+	gulp.watch(paths.app + '/styles/**/*.less', ['less']);
+	gulp.watch(paths.app + '/images/**/*', ['imagemin']);
 });
 
 gulp.task('build-dev', ['lint', 'lint-server', 'less', 'browserify', 'copy', 'imagemin', 'vendor']);
