@@ -1,29 +1,22 @@
 var App = require('application');
-var Picky = require('backbone.picky');
-var _ = require('lodash');
+var BackboneSelect = require('backbone.select');
 var $ = require('jquery');
 
 module.exports = App.module('Entities', function (Entities, App, Backbone) {
     Entities.MasterDetail = Backbone.Model.extend({
         urlRoot: '/api/masterdetail',
-        initialize: function () {
-            var selectable = new Picky.Selectable(this);
-            _.extend(this, selectable);
-            this.select = selectable.select;
-            this.deselect = selectable.deselect;
-        }
+		initialize: function () {
+			Backbone.Select.Me.applyTo( this );
+		}
     });
 
     Entities.MasterDetailCollection = Backbone.Collection.extend({
         model: Entities.MasterDetail,
         url: '/api/masterdetail',
 
-        initialize: function () {
-            var singleSelect = new Picky.SingleSelect(this);
-            _.extend(this, singleSelect);
-            this.select = singleSelect.select;
-            this.deselect = singleSelect.deselect;
-        }
+		initialize: function(models) {
+			BackboneSelect.One.applyTo(this, models);
+		}
     });
 
     var API = {

@@ -1,8 +1,8 @@
 module.exports = {
-    'backbone.picky': {
-        exports: 'Backbone.Picky',
+    'backbone.select': {
+        exports: 'Backbone.Select',
         depends: {
-            'lodash': '_',
+            'underscore': '_',
             'backbone': 'Backbone'
         }
     },

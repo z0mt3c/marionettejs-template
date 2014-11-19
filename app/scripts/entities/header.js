@@ -1,47 +1,40 @@
 var App = require('application');
-var Picky = require('backbone.picky');
-var _ = require('lodash');
+var BackboneSelect = require('backbone.select');
 
-module.exports = App.module('Entities', function (Entities, App, Backbone) {
-    Entities.Header = Backbone.Model.extend({
-        initialize: function () {
-            var selectable = new Picky.Selectable(this);
-            _.assign(this, selectable);
-            this.select = selectable.select;
-            this.deselect = selectable.deselect;
-        }
-    });
+module.exports = App.module('Entities', function(Entities, App, Backbone) {
+	Entities.Header = Backbone.Model.extend({
+		initialize: function () {
+			BackboneSelect.Me.applyTo( this );
+		}
+	});
 
-    Entities.HeaderCollection = Backbone.Collection.extend({
-        model: Entities.Header,
+	Entities.HeaderCollection = Backbone.Collection.extend({
+		model: Entities.Header,
 
-        initialize: function () {
-            var singleSelect = new Picky.SingleSelect(this);
-            _.assign(this, singleSelect);
-            this.select = singleSelect.select;
-            this.deselect = singleSelect.deselect;
-        }
-    });
+		initialize: function(models) {
+			BackboneSelect.One.applyTo(this, models);
+		}
+	});
 
-    var initializeHeaders = function () {
-        Entities.headers = new Entities.HeaderCollection([
-            { name: 'Start', url: '/start', navigationTrigger: 'default:start' },
-            { name: 'Hello', url: '/hello/Name', navigationTrigger: ['default:hello', 'Name'] },
-            { name: 'MasterDetail', url: '/masterdetail', navigationTrigger: 'masterdetail:start' },
-            { name: 'Notifications', url: '/demo', navigationTrigger: 'demo:demo' }
-        ]);
-    };
+	var initializeHeaders = function() {
+		Entities.headers = new Entities.HeaderCollection([
+			{name: 'Start', url: '/start', navigationTrigger: 'default:start'},
+			{name: 'Hello', url: '/hello/Name', navigationTrigger: ['default:hello', 'Name']},
+			{name: 'MasterDetail', url: '/masterdetail', navigationTrigger: 'masterdetail:start'},
+			{name: 'Notifications', url: '/demo', navigationTrigger: 'demo:demo'}
+		]);
+	};
 
-    var API = {
-        getHeaders: function () {
-            if (Entities.headers === undefined) {
-                initializeHeaders();
-            }
-            return Entities.headers;
-        }
-    };
+	var API = {
+		getHeaders: function() {
+			if (Entities.headers === undefined) {
+				initializeHeaders();
+			}
+			return Entities.headers;
+		}
+	};
 
-    App.reqres.setHandler('header:entities', function () {
-        return API.getHeaders();
-    });
+	App.reqres.setHandler('header:entities', function() {
+		return API.getHeaders();
+	});
 });

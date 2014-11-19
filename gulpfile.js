@@ -57,6 +57,13 @@ var helper = {
 			// Keep gulp from hanging on this task
 			this.emit('end');
 		}
+	},
+	lintFiles: function(title, jshintFiles) {
+		return gulp.src(jshintFiles)
+			.pipe(jshint())
+			.pipe(jshint.reporter(stylish || 'default'))
+			.pipe(jshint.reporter('fail'))
+			.on('error', helper.handleErrors('Lint failed (' + title + ')'));
 	}
 };
 
@@ -67,16 +74,23 @@ gulp.task('clean', function() {
 		.pipe(rimraf());
 });
 
-gulp.task('copy', function() {
-	var files = [paths.app + '/*.html', paths.app + '/*.ico', paths.app + '/*.txt', paths.app + '/.htaccess', paths.app + '/styles/fonts/*'];
-	return gulp.src(files, {base: paths.app})
-		.pipe(gulp.dest(paths.dist));
+gulp.task('copy-fonts', function() {
+	return gulp.src([
+		'./node_modules/font-awesome/fonts/*'
+	], {base: './node_modules/font-awesome'})
+		.pipe(gulp.dest(paths.dist + '/styles'));
 });
 
-gulp.task('vendor', function() {
-	var files = [paths.app + '/bower_components/modernizr/modernizr.js'];
+gulp.task('copy', ['copy-fonts'], function() {
+	var files = [
+		paths.app + '/*.html',
+		paths.app + '/*.ico',
+		paths.app + '/*.txt',
+		paths.app + '/.htaccess',
+		paths.app + '/styles/fonts/*'
+	];
+
 	return gulp.src(files, {base: paths.app})
-		.pipe(uglify())
 		.pipe(gulp.dest(paths.dist));
 });
 
@@ -93,28 +107,16 @@ gulp.task('imagemin', function() {
 });
 
 gulp.task('lint', function() {
-	var jshintFiles = [
+	return helper.lintFiles('client', [
 		paths.app + '/scripts/**/*.js'
-	];
-
-	return gulp.src(jshintFiles)
-		.pipe(jshint())
-		.pipe(jshint.reporter(stylish || 'default'))
-		.pipe(jshint.reporter('fail'))
-		.on('error', helper.handleErrors('Lint failed (client)'));
+	]);
 });
 
 gulp.task('lint-server', function() {
-	var jshintFiles = [
+	return helper.lintFiles('server', [
 		'./standalone-server/*.js',
-		'./plugin/*.js'
-	];
-
-	return gulp.src(jshintFiles)
-		.pipe(jshint())
-		.pipe(jshint.reporter(stylish || 'default'))
-		.pipe(jshint.reporter('fail'))
-		.on('error', helper.handleErrors('Lint failed (server)'));
+		'./plugin/**/*.js'
+	]);
 });
 
 gulp.task('less', function() {
@@ -130,7 +132,7 @@ gulp.task('less', function() {
 
 	return pipe
 		.pipe(gulp.dest(paths.dist + '/styles'))
-		.pipe(reload({stream:true}));
+		.pipe(reload({stream: true}));
 });
 
 gulp.task('processhtml', ['copy'], function() {
@@ -213,7 +215,6 @@ gulp.task('livereload', ['doWatch'], function() {
 	gulp.watch(paths.dist + '/**/*.js', browserSync.reload);
 });
 
-
 gulp.task('setWatch', function() {
 	global.isWatching = true;
 });
@@ -222,9 +223,12 @@ gulp.task('doWatch', ['copy'], function() {
 	global.isWatching = true;
 	gulp.watch(paths.app + '/styles/**/*.less', ['less']);
 	gulp.watch(paths.app + '/images/**/*', ['imagemin']);
+	gulp.watch(paths.app + '/scripts/**/*.js', ['lint']);
+	gulp.watch('./standalone-server/*.js', ['lint-server']);
+	gulp.watch('./plugin/**/*.js', ['lint-server']);
 });
 
-gulp.task('build-dev', ['lint', 'lint-server', 'less', 'browserify', 'copy', 'imagemin', 'vendor']);
+gulp.task('build-dev', ['lint', 'lint-server', 'less', 'browserify', 'copy', 'imagemin']);
 gulp.task('build', ['build-dev', 'uglify', 'processhtml']);
 
 gulp.task('watch', ['setWatch', 'build-dev', 'server', 'doWatch', 'livereload']);

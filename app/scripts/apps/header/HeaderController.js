@@ -1,5 +1,5 @@
 var App = require('application');
-var _ = require('lodash');
+var _ = require('underscore');
 var View = require('./HeaderView');
 require('../../entities/header');
 
